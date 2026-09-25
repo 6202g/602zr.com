@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>602ZR</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                "Noto Sans TC",
+                sans-serif;
+
+            background: #f5f6f8;
+            color: #222;
+        }
+
+
+        /* ============================= */
+        /* 頂部 */
+        /* ============================= */
+
+        header {
+
+            height: 76px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 40px;
+
+            border-bottom: 1px solid #ddd;
+
+        }
+
+
+        .logo {
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* ============================= */
+        /* Google 帳號 */
+        /* ============================= */
+
+        #auth-area {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .account-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .account-avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+        }
+
+
+        .account-name {
+
+            font-weight: 600;
+
+            font-size: 14px;
+
+        }
+
+
+        .account-email {
+
+            font-size: 11px;
+
+            color: #777;
+
+        }
+
+
+        .logout-button {
+
+            margin-left: 10px;
+
+            padding: 7px 12px;
+
+            border: 1px solid #ccc;
+
+            background: white;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+        }
+
+
+        /* ============================= */
+        /* 主畫面 */
+        /* ============================= */
+
+        main {
+
+            max-width: 1000px;
+
+            margin: 60px auto;
+
+            padding: 0 20px;
+
+        }
+
+
+        h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .subtitle {
+
+            color: #777;
+
+            margin-bottom: 40px;
+
+        }
+
+
+        /* ============================= */
+        /* 功能卡片 */
+        /* ============================= */
+
+        #home-links {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(260px, 1fr)
+                );
+
+            gap: 20px;
+
+        }
+
+
+        .menu-card {
+
+            display: block;
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 16px;
+
+            text-decoration: none;
+
+            color: #222;
+
+            border: 1px solid #e2e2e2;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+
+        }
+
+
+        .menu-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .menu-title {
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            margin-bottom: 9px;
+
+        }
+
+
+        .menu-description {
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 0 18px;
+
+            }
+
+            .account-email {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        602ZR
+    </div>
+
+
+    <div id="auth-area">
+
+        <!-- Google 登入 / 使用者帳號 -->
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <h1>
+        602ZR
+    </h1>
+
+    <div class="subtitle">
+        Pokémon Trading Card Game Platform
+    </div>
+
+
+    <div id="home-links">
+
+        <!-- app.js 自動產生 -->
+
+    </div>
+
+</main>
+
+
+<!-- Google Identity Services -->
+
+<script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer>
+</script>
+
+
+<!-- 602ZR 共用 JS -->
+
+<script src="/app.js"></script>
+
+
+</body>
+
+</html>
