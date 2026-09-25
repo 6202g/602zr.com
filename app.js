@@ -9,7 +9,7 @@
 // ======================================================
 
 const GAS_URL =
-    "PASTE_YOUR_GAS_WEB_APP_URL_HERE";
+    "https://script.google.com/macros/s/AKfycbzsK_1UuEvMOhHWfuLrOyjFwAiCaev3o-nc4JgTZ4We0aXDt8C5fT1dxAzeUIzOb_1z/exec";
 
 
 const REPO_NAME =
