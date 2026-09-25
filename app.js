@@ -9,7 +9,7 @@
 // ======================================================
 
 const GAS_URL =
-    "PASTE_YOUR_GAS_WEB_APP_URL_HERE";
+    "https://script.google.com/macros/s/AKfycby18aC5opfqVhz5iA21SAOl3VcEfuGY85C6zfzD1OIWa55q-JzA5ocGtIdLbdcQZX_g/exec";
 
 
 // ======================================================
