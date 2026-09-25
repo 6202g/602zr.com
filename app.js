@@ -1,96 +1,199 @@
-// =====================================================
-// 602ZR 共用 JavaScript
+// ======================================================
+// 602ZR Website
 // app.js
-// =====================================================
+// GitHub Pages compatible version
+// ======================================================
 
-// 將這裡換成你在 Google Cloud Console 建立的 OAuth Client ID
+
+// ======================================================
+// 1. 基本設定
+// ======================================================
+
+// GitHub Repository 名稱
+const REPO_NAME = "602zr.com";
+
+// Google OAuth Client ID
+// 建立 Google OAuth 後，把下面換成你的 Client ID
 const GOOGLE_CLIENT_ID =
     "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
 
-// =====================================================
-// 網站連結
-// =====================================================
+// ======================================================
+// 2. 自動判斷網站根目錄
+// ======================================================
+//
+// GitHub Pages：
+// https://602g.github.io/602zr.com/
+//
+// 未來自訂網域：
+// https://602zr.com/
+//
+// 這樣不用重新修改所有連結。
+// ======================================================
+
+const IS_GITHUB_PAGES =
+    window.location.hostname.endsWith("github.io");
+
+const BASE_PATH =
+    IS_GITHUB_PAGES
+        ? `/${REPO_NAME}`
+        : "";
+
+
+// ======================================================
+// 3. 建立網站網址
+// ======================================================
+
+function siteURL(path = "/") {
+
+    if (!path.startsWith("/")) {
+        path = "/" + path;
+    }
+
+    return BASE_PATH + path;
+}
+
+
+// ======================================================
+// 4. 首頁功能
+// ======================================================
 
 const SITE_LINKS = [
+
     {
         title: "⚔️ 對戰模擬",
         description: "進入 Pokémon TCG 對戰模擬",
-        url: "/game"
+        url: siteURL("/game/")
     },
+
     {
         title: "🃏 牌組編輯",
-        description: "建立、修改與管理牌組",
-        url: "/deck"
+        description: "建立、修改與管理你的牌組",
+        url: siteURL("/deck/")
     },
+
     {
         title: "🔴 PTCG 訓練家網站臺灣",
-        description: "前往寶可夢集換式卡牌遊戲官方網站",
+        description: "前往 Pokémon Card Game 台灣官方網站",
         url: "https://asia.pokemon-card.com/tw/",
         external: true
     },
+
     {
         title: "🏆 最新賽事",
-        description: "查看最新賽事資訊",
-        url: "/contest"
+        description: "查看最新比賽與活動資訊",
+        url: siteURL("/contest/")
     },
+
     {
         title: "💬 聊天平台",
-        description: "進入 602ZR 玩家聊天室",
-        url: "/chat"
+        description: "進入 602ZR 玩家聊天平台",
+        url: siteURL("/chat/")
     }
+
 ];
 
 
-// =====================================================
-// 初始化
-// =====================================================
+// ======================================================
+// 5. 網頁載入
+// ======================================================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    renderNavigation();
+        renderNavigation();
 
-    restoreUser();
+        restoreUser();
 
-    waitForGoogleAPI();
+        waitForGoogleAPI();
 
-});
+        setupHomeLinks();
+
+    }
+);
 
 
-// =====================================================
-// 建立首頁按鈕
-// =====================================================
+// ======================================================
+// 6. 首頁 Logo / Home Link
+// ======================================================
+
+function setupHomeLinks() {
+
+    document
+        .querySelectorAll("[data-home-link]")
+        .forEach(link => {
+
+            link.href = siteURL("/");
+
+        });
+
+}
+
+
+// ======================================================
+// 7. 建立首頁功能選單
+// ======================================================
 
 function renderNavigation() {
 
-    const container = document.getElementById("home-links");
+    const container =
+        document.getElementById("home-links");
 
-    // 子頁面沒有 home-links 就不執行
-    if (!container) return;
+    // 如果目前不是首頁就停止
+    if (!container) {
+        return;
+    }
 
     container.innerHTML = "";
 
+
     SITE_LINKS.forEach(item => {
 
-        const link = document.createElement("a");
+        const link =
+            document.createElement("a");
 
-        link.className = "menu-card";
-        link.href = item.url;
+        link.className =
+            "menu-card";
+
+        link.href =
+            item.url;
+
 
         if (item.external) {
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
+
+            link.target =
+                "_blank";
+
+            link.rel =
+                "noopener noreferrer";
+
         }
 
-        link.innerHTML = `
-            <div class="menu-title">
-                ${item.title}
-            </div>
 
-            <div class="menu-description">
-                ${item.description}
-            </div>
-        `;
+        const title =
+            document.createElement("div");
+
+        title.className =
+            "menu-title";
+
+        title.textContent =
+            item.title;
+
+
+        const description =
+            document.createElement("div");
+
+        description.className =
+            "menu-description";
+
+        description.textContent =
+            item.description;
+
+
+        link.appendChild(title);
+
+        link.appendChild(description);
 
         container.appendChild(link);
 
@@ -99,11 +202,20 @@ function renderNavigation() {
 }
 
 
-// =====================================================
-// 等待 Google API 載入
-// =====================================================
+// ======================================================
+// 8. 等待 Google Login API
+// ======================================================
 
 function waitForGoogleAPI() {
+
+    // 如果頁面沒有登入區域，就不需要一直檢查
+    const authArea =
+        document.getElementById("auth-area");
+
+    if (!authArea) {
+        return;
+    }
+
 
     if (
         window.google &&
@@ -114,163 +226,187 @@ function waitForGoogleAPI() {
         initializeGoogleLogin();
 
         return;
+
     }
 
-    setTimeout(waitForGoogleAPI, 200);
+
+    setTimeout(
+        waitForGoogleAPI,
+        250
+    );
 
 }
 
 
-// =====================================================
-// Google Login 初始化
-// =====================================================
+// ======================================================
+// 9. 初始化 Google Login
+// ======================================================
 
 function initializeGoogleLogin() {
 
+    if (
+        !GOOGLE_CLIENT_ID ||
+        GOOGLE_CLIENT_ID.startsWith(
+            "YOUR_GOOGLE_CLIENT_ID"
+        )
+    ) {
+
+        console.warn(
+            "尚未設定 Google OAuth Client ID"
+        );
+
+        showGoogleSetupMessage();
+
+        return;
+
+    }
+
+
     google.accounts.id.initialize({
 
-        client_id: GOOGLE_CLIENT_ID,
+        client_id:
+            GOOGLE_CLIENT_ID,
 
-        callback: handleGoogleLogin,
+        callback:
+            handleGoogleLogin,
 
-        auto_select: false,
+        auto_select:
+            false,
 
-        cancel_on_tap_outside: true
+        cancel_on_tap_outside:
+            true
 
     });
+
 
     renderLoginArea();
 
 }
 
 
-// =====================================================
-// Google 登入完成
-// =====================================================
+// ======================================================
+// 10. Google Login 成功
+// ======================================================
 
-async function handleGoogleLogin(response) {
+function handleGoogleLogin(response) {
 
-    if (!response.credential) {
-        console.error("Google 登入失敗");
+    if (
+        !response ||
+        !response.credential
+    ) {
+
+        console.error(
+            "Google 登入失敗"
+        );
+
         return;
+
     }
 
 
-    /*
-        response.credential 是 Google ID Token
+    const payload =
+        decodeJWT(
+            response.credential
+        );
 
-        正式網站：
-        建議傳到 Server 驗證 Token。
-
-        以下先解析使用者資料，
-        讓純前端版本也能運作。
-    */
-
-    const payload = decodeJWT(response.credential);
 
     if (!payload) {
 
-        alert("Google 帳號資料讀取失敗");
+        alert(
+            "無法讀取 Google 帳號資料"
+        );
 
         return;
+
     }
 
 
     const user = {
 
-        id: payload.sub,
+        id:
+            payload.sub || "",
 
-        name: payload.name,
+        name:
+            payload.name || "",
 
-        email: payload.email,
+        email:
+            payload.email || "",
 
-        picture: payload.picture
+        picture:
+            payload.picture || ""
 
     };
 
 
-    /*
-        儲存顯示資料
-
-        因為 domain/game
-        domain/deck
-        domain/chat
-
-        都屬於同一個 origin，
-        所以 localStorage 可以共同取得。
-    */
-
-    localStorage.setItem(
-        "602zr_user",
-        JSON.stringify(user)
-    );
-
-
-    /*
-        正式版可以把 Google credential
-        送到 Server：
-
-        await fetch("/api/auth/google", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({
-                credential: response.credential
-            })
-        });
-
-    */
-
+    saveUser(user);
 
     renderUser(user);
 
 }
 
 
-// =====================================================
-// JWT Decode
-// =====================================================
+// ======================================================
+// 11. Decode Google JWT
+// ======================================================
 
 function decodeJWT(token) {
 
     try {
 
-        const base64Url = token.split(".")[1];
+        const parts =
+            token.split(".");
 
-        const base64 =
-            base64Url
+        if (parts.length !== 3) {
+            return null;
+        }
+
+
+        let base64 =
+            parts[1]
                 .replace(/-/g, "+")
                 .replace(/_/g, "/");
 
 
-        const jsonPayload = decodeURIComponent(
+        while (
+            base64.length % 4
+        ) {
 
-            atob(base64)
-                .split("")
-                .map(c => {
+            base64 += "=";
 
-                    return "%" +
-                        ("00" +
-                            c.charCodeAt(0)
-                                .toString(16)
-                        ).slice(-2);
-
-                })
-                .join("")
-
-        );
+        }
 
 
-        return JSON.parse(jsonPayload);
+        const json =
+            decodeURIComponent(
+
+                atob(base64)
+                    .split("")
+                    .map(character => {
+
+                        return (
+                            "%" +
+                            (
+                                "00" +
+                                character
+                                    .charCodeAt(0)
+                                    .toString(16)
+                            ).slice(-2)
+                        );
+
+                    })
+                    .join("")
+
+            );
+
+
+        return JSON.parse(json);
 
     }
 
     catch (error) {
 
         console.error(
-            "JWT decode error:",
+            "JWT Decode Error:",
             error
         );
 
@@ -281,29 +417,53 @@ function decodeJWT(token) {
 }
 
 
-// =====================================================
-// 恢復登入狀態
-// =====================================================
+// ======================================================
+// 12. 儲存使用者
+// ======================================================
 
-function restoreUser() {
+function saveUser(user) {
+
+    try {
+
+        localStorage.setItem(
+            "602zr_user",
+            JSON.stringify(user)
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "無法儲存使用者資料",
+            error
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// 13. 取得目前使用者
+// ======================================================
+
+function getCurrentUser() {
 
     const saved =
-        localStorage.getItem("602zr_user");
+        localStorage.getItem(
+            "602zr_user"
+        );
+
 
     if (!saved) {
-
-        renderLoginArea();
-
-        return;
+        return null;
     }
 
 
     try {
 
-        const user =
-            JSON.parse(saved);
-
-        renderUser(user);
+        return JSON.parse(saved);
 
     }
 
@@ -313,125 +473,275 @@ function restoreUser() {
             "602zr_user"
         );
 
+        return null;
+
     }
 
 }
 
 
-// =====================================================
-// 顯示 Google Login
-// =====================================================
+// ======================================================
+// 14. 恢復登入顯示
+// ======================================================
+
+function restoreUser() {
+
+    const user =
+        getCurrentUser();
+
+
+    if (user) {
+
+        renderUser(user);
+
+    }
+
+}
+
+
+// ======================================================
+// 15. 顯示 Google Login Button
+// ======================================================
 
 function renderLoginArea() {
 
     const area =
-        document.getElementById("auth-area");
-
-    if (!area) return;
-
-
-    // 如果已登入，不重新顯示登入按鈕
-    const saved =
-        localStorage.getItem("602zr_user");
-
-    if (saved) {
-
-        renderUser(
-            JSON.parse(saved)
+        document.getElementById(
+            "auth-area"
         );
 
+
+    if (!area) {
         return;
     }
 
 
-    area.innerHTML = `
-        <div id="google-login-button"></div>
-    `;
+    const user =
+        getCurrentUser();
+
+
+    if (user) {
+
+        renderUser(user);
+
+        return;
+
+    }
+
+
+    area.innerHTML = "";
+
+
+    const button =
+        document.createElement("div");
+
+    button.id =
+        "google-login-button";
+
+    area.appendChild(button);
 
 
     if (
-        !window.google ||
-        !google.accounts
-    ) return;
+        window.google &&
+        google.accounts &&
+        google.accounts.id
+    ) {
+
+        google.accounts.id.renderButton(
+
+            button,
+
+            {
+
+                theme:
+                    "outline",
+
+                size:
+                    "large",
+
+                shape:
+                    "pill",
+
+                type:
+                    "standard",
+
+                text:
+                    "signin_with"
+
+            }
+
+        );
+
+    }
+
+}
 
 
-    google.accounts.id.renderButton(
+// ======================================================
+// 16. 尚未設定 Google Client ID
+// ======================================================
 
+function showGoogleSetupMessage() {
+
+    const area =
         document.getElementById(
-            "google-login-button"
-        ),
+            "auth-area"
+        );
 
-        {
-            theme: "outline",
-            size: "large",
-            shape: "pill",
-            text: "signin_with"
-        }
 
+    if (!area) {
+        return;
+    }
+
+
+    const user =
+        getCurrentUser();
+
+
+    if (user) {
+
+        renderUser(user);
+
+        return;
+
+    }
+
+
+    area.innerHTML = `
+        <span class="google-not-configured">
+            Google 登入尚未設定
+        </span>
+    `;
+
+}
+
+
+// ======================================================
+// 17. 顯示登入使用者
+// ======================================================
+
+function renderUser(user) {
+
+    const area =
+        document.getElementById(
+            "auth-area"
+        );
+
+
+    if (!area) {
+        return;
+    }
+
+
+    area.innerHTML = "";
+
+
+    const accountBox =
+        document.createElement("div");
+
+    accountBox.className =
+        "account-box";
+
+
+    // 頭像
+    if (user.picture) {
+
+        const avatar =
+            document.createElement("img");
+
+        avatar.className =
+            "account-avatar";
+
+        avatar.src =
+            user.picture;
+
+        avatar.alt =
+            "Google Account";
+
+        avatar.referrerPolicy =
+            "no-referrer";
+
+        accountBox.appendChild(
+            avatar
+        );
+
+    }
+
+
+    // 使用者資料
+    const information =
+        document.createElement("div");
+
+    information.className =
+        "account-info";
+
+
+    const name =
+        document.createElement("div");
+
+    name.className =
+        "account-name";
+
+    name.textContent =
+        user.name || "Google 使用者";
+
+
+    const email =
+        document.createElement("div");
+
+    email.className =
+        "account-email";
+
+    email.textContent =
+        user.email || "";
+
+
+    information.appendChild(
+        name
+    );
+
+    information.appendChild(
+        email
+    );
+
+
+    // 登出
+    const logoutButton =
+        document.createElement(
+            "button"
+        );
+
+    logoutButton.className =
+        "logout-button";
+
+    logoutButton.textContent =
+        "登出";
+
+    logoutButton.addEventListener(
+        "click",
+        logout
+    );
+
+
+    accountBox.appendChild(
+        information
+    );
+
+    accountBox.appendChild(
+        logoutButton
+    );
+
+
+    area.appendChild(
+        accountBox
     );
 
 }
 
 
-// =====================================================
-// 顯示登入帳號
-// =====================================================
-
-function renderUser(user) {
-
-    const area =
-        document.getElementById("auth-area");
-
-    if (!area) return;
-
-
-    area.innerHTML = `
-
-        <div class="account-box">
-
-            <img
-                src="${escapeHTML(user.picture)}"
-                class="account-avatar"
-                alt="Google Account"
-            >
-
-            <div class="account-info">
-
-                <div class="account-name">
-                    ${escapeHTML(user.name)}
-                </div>
-
-                <div class="account-email">
-                    ${escapeHTML(user.email)}
-                </div>
-
-            </div>
-
-            <button
-                id="logout-button"
-                class="logout-button"
-            >
-                登出
-            </button>
-
-        </div>
-
-    `;
-
-
-    document
-        .getElementById("logout-button")
-        .addEventListener(
-            "click",
-            logout
-        );
-
-}
-
-
-// =====================================================
-// 登出
-// =====================================================
+// ======================================================
+// 18. 登出
+// ======================================================
 
 function logout() {
 
@@ -442,7 +752,8 @@ function logout() {
 
     if (
         window.google &&
-        google.accounts
+        google.accounts &&
+        google.accounts.id
     ) {
 
         google.accounts.id.disableAutoSelect();
@@ -455,79 +766,78 @@ function logout() {
 }
 
 
-// =====================================================
-// 取得目前使用者
-//
-// 其他 JS 可以：
-//
-// const user = getCurrentUser();
-//
-// =====================================================
-
-function getCurrentUser() {
-
-    const saved =
-        localStorage.getItem("602zr_user");
-
-    if (!saved)
-        return null;
-
-
-    try {
-
-        return JSON.parse(saved);
-
-    }
-
-    catch {
-
-        return null;
-
-    }
-
-}
-
-
-// =====================================================
-// 是否登入
-// =====================================================
+// ======================================================
+// 19. 判斷是否已登入
+// ======================================================
 
 function isLoggedIn() {
 
-    return getCurrentUser() !== null;
+    return (
+        getCurrentUser() !== null
+    );
 
 }
 
 
-// =====================================================
-// HTML 防注入
-// =====================================================
+// ======================================================
+// 20. 必須登入才能使用
+// ======================================================
+//
+// 未來例如牌組編輯器可以：
+//
+// if (!ZR602.requireLogin()) {
+//     return;
+// }
+//
+// ======================================================
 
-function escapeHTML(value) {
+function requireLogin() {
 
-    if (!value)
-        return "";
+    if (
+        isLoggedIn()
+    ) {
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        return true;
+
+    }
+
+
+    alert(
+        "請先使用 Google 帳號登入 602ZR"
+    );
+
+
+    window.location.href =
+        siteURL("/");
+
+
+    return false;
 
 }
 
 
-// =====================================================
-// 提供給其他 JS 使用
-// =====================================================
+// ======================================================
+// 21. 提供其他頁面 JavaScript 使用
+// ======================================================
 
 window.ZR602 = {
 
-    getCurrentUser,
+    getCurrentUser:
+        getCurrentUser,
 
-    isLoggedIn,
+    isLoggedIn:
+        isLoggedIn,
 
-    logout
+    requireLogin:
+        requireLogin,
 
-};
+    logout:
+        logout,
+
+    siteURL:
+        siteURL,
+
+    basePath:
+        BASE_PATH
+
+};=
