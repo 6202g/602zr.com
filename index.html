@@ -3,556 +3,733 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>602ZR</title>
+    <title>602ZR</title>
 
-<style>
+    <style>
 
-* {
-    box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-body {
+        html,
+        body {
+            min-height: 100%;
+        }
 
-    margin: 0;
+        body {
+            margin: 0;
 
-    font-family:
-        Arial,
-        "Noto Sans TC",
-        "Microsoft JhengHei",
-        sans-serif;
+            font-family:
+                Arial,
+                "Noto Sans TC",
+                "Microsoft JhengHei",
+                sans-serif;
 
-    background: #f5f6f8;
+            background: #f5f6f8;
+            color: #222;
+        }
 
-    color: #222;
 
-}
+        /* ======================================== */
+        /* Header */
+        /* ======================================== */
 
+        header {
 
-/* ============================= */
-/* Header */
-/* ============================= */
+            min-height: 76px;
 
-header {
+            padding: 12px 36px;
 
-    min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    background: white;
+            background: white;
 
-    display: flex;
+            border-bottom: 1px solid #e5e5e5;
 
-    align-items: center;
+            position: sticky;
+            top: 0;
 
-    justify-content: space-between;
+            z-index: 100;
 
-    padding: 12px 36px;
+        }
 
-    border-bottom: 1px solid #ddd;
 
-}
+        .logo {
 
+            color: #111;
 
-.logo {
+            text-decoration: none;
 
-    font-size: 30px;
+            font-size: 30px;
 
-    font-weight: 800;
+            font-weight: 800;
 
-    color: #111;
+            letter-spacing: 1px;
 
-    text-decoration: none;
+        }
 
-}
 
+        /* ======================================== */
+        /* Login Area */
+        /* ======================================== */
 
-/* ============================= */
-/* Login area */
-/* ============================= */
+        #auth-area {
 
-#auth-area {
+            display: flex;
 
-    display: flex;
+            align-items: center;
 
-    align-items: center;
+            justify-content: flex-end;
 
-    gap: 10px;
+            gap: 9px;
 
-}
+            min-height: 44px;
 
+        }
 
-.auth-button {
 
-    padding: 9px 16px;
+        .auth-button {
 
-    border-radius: 9px;
+            border: 1px solid #d0d0d0;
 
-    border: 1px solid #ccc;
+            background: white;
 
-    background: white;
+            color: #222;
 
-    cursor: pointer;
+            border-radius: 9px;
 
-    font-size: 14px;
+            padding: 9px 16px;
 
-}
+            font-size: 14px;
 
+            cursor: pointer;
 
-.auth-button.primary {
+            transition:
+                background .15s,
+                opacity .15s;
 
-    background: #111;
+        }
 
-    color: white;
 
-    border-color: #111;
+        .auth-button:hover {
 
-}
+            background: #f5f5f5;
 
+        }
 
-.auth-button:hover {
 
-    opacity: .8;
+        .auth-button.primary {
 
-}
+            background: #111;
 
+            color: white;
 
-.user-box {
+            border-color: #111;
 
-    display: flex;
+        }
 
-    align-items: center;
 
-    gap: 12px;
+        .auth-button.primary:hover {
 
-}
+            opacity: .85;
 
+        }
 
-.user-name {
 
-    font-weight: 700;
+        .user-box {
 
-}
+            display: flex;
 
+            align-items: center;
 
-.user-email {
+            gap: 12px;
 
-    color: #888;
+        }
 
-    font-size: 11px;
 
-}
+        .user-info {
 
+            text-align: right;
 
-/* ============================= */
-/* Main */
-/* ============================= */
+            line-height: 1.3;
 
-main {
+        }
 
-    max-width: 1050px;
 
-    margin: auto;
+        .user-name {
 
-    padding: 65px 25px 80px;
+            font-size: 14px;
 
-}
+            font-weight: 700;
 
+        }
 
-.hero {
 
-    margin-bottom: 45px;
+        .user-email {
 
-}
+            margin-top: 2px;
 
+            color: #888;
 
-.hero h1 {
+            font-size: 11px;
 
-    font-size: 48px;
+        }
 
-    margin: 0;
 
-}
+        /* ======================================== */
+        /* Main */
+        /* ======================================== */
 
+        main {
 
-.hero p {
+            width: 100%;
 
-    color: #777;
+            max-width: 1050px;
 
-    margin-top: 10px;
+            margin: 0 auto;
 
-}
+            padding: 65px 25px 80px;
 
+        }
 
-/* ============================= */
-/* Menu */
-/* ============================= */
 
-#home-links {
+        .hero {
 
-    display: grid;
+            margin-bottom: 45px;
 
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(260px, 1fr)
-        );
+        }
 
-    gap: 20px;
 
-}
+        .hero h1 {
 
+            margin: 0;
 
-.menu-card {
+            font-size: 48px;
 
-    display: block;
+            font-weight: 800;
 
-    min-height: 135px;
+            letter-spacing: 1px;
 
-    background: white;
+        }
 
-    padding: 27px;
 
-    border-radius: 16px;
+        .hero p {
 
-    text-decoration: none;
+            margin-top: 10px;
 
-    color: #222;
+            margin-bottom: 0;
 
-    border: 1px solid #ddd;
+            color: #777;
 
-    transition: .2s;
+            font-size: 16px;
 
-}
+        }
 
 
-.menu-card:hover {
+        /* ======================================== */
+        /* Menu Cards */
+        /* ======================================== */
 
-    transform: translateY(-4px);
+        #home-links {
 
-    box-shadow:
-        0 12px 30px
-        rgba(0,0,0,.08);
+            display: grid;
 
-}
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(260px, 1fr)
+                );
 
+            gap: 20px;
 
-.menu-title {
+        }
 
-    font-size: 21px;
 
-    font-weight: 700;
+        .menu-card {
 
-    margin-bottom: 10px;
+            display: block;
 
-}
+            min-height: 135px;
 
+            padding: 27px;
 
-.menu-description {
+            color: #222;
 
-    color: #777;
+            background: white;
 
-    font-size: 14px;
+            text-decoration: none;
 
-    line-height: 1.6;
+            border: 1px solid #e1e1e1;
 
-}
+            border-radius: 16px;
 
+            transition:
+                transform .18s ease,
+                box-shadow .18s ease,
+                border-color .18s ease;
 
-/* ============================= */
-/* Modal */
-/* ============================= */
+        }
 
-.modal {
 
-    position: fixed;
+        .menu-card:hover {
 
-    inset: 0;
+            transform: translateY(-4px);
 
-    background:
-        rgba(0,0,0,.35);
+            border-color: #cfcfcf;
 
-    display: flex;
+            box-shadow:
+                0 12px 30px
+                rgba(0, 0, 0, .08);
 
-    align-items: center;
+        }
 
-    justify-content: center;
 
-    z-index: 999;
+        .menu-title {
 
-    padding: 20px;
+            margin-bottom: 10px;
 
-}
+            font-size: 21px;
 
+            font-weight: 700;
 
-.hidden {
+        }
 
-    display: none !important;
 
-}
+        .menu-description {
 
+            color: #777;
 
-.modal-card {
+            font-size: 14px;
 
-    width: 100%;
+            line-height: 1.6;
 
-    max-width: 420px;
+        }
 
-    background: white;
 
-    border-radius: 18px;
+        /* ======================================== */
+        /* Modal */
+        /* ======================================== */
 
-    padding: 28px;
+        .modal {
 
-    box-shadow:
-        0 20px 70px
-        rgba(0,0,0,.2);
+            position: fixed;
 
-}
+            inset: 0;
 
+            z-index: 1000;
 
-.modal-header {
+            display: flex;
 
-    display: flex;
+            align-items: center;
 
-    justify-content: space-between;
+            justify-content: center;
 
-    align-items: center;
+            padding: 20px;
 
-    margin-bottom: 20px;
+            background:
+                rgba(0, 0, 0, .42);
 
-}
+        }
 
 
-.modal-title {
+        .hidden {
 
-    font-size: 24px;
+            display: none !important;
 
-    font-weight: 800;
+        }
 
-}
 
+        .modal-card {
 
-.close-button {
+            width: 100%;
 
-    border: 0;
+            max-width: 430px;
 
-    background: transparent;
+            max-height: 90vh;
 
-    font-size: 26px;
+            overflow-y: auto;
 
-    cursor: pointer;
+            padding: 28px;
 
-}
+            background: white;
 
+            border-radius: 18px;
 
-/* Tabs */
+            box-shadow:
+                0 24px 80px
+                rgba(0, 0, 0, .24);
 
-.tabs {
+        }
 
-    display: flex;
 
-    gap: 8px;
+        .modal-header {
 
-    margin-bottom: 24px;
+            display: flex;
 
-}
+            align-items: center;
 
+            justify-content: space-between;
 
-.tab {
+            margin-bottom: 20px;
 
-    flex: 1;
+        }
 
-    padding: 10px;
 
-    border-radius: 9px;
+        .modal-title {
 
-    border: 1px solid #ddd;
+            font-size: 24px;
 
-    background: white;
+            font-weight: 800;
 
-    cursor: pointer;
+        }
 
-}
 
+        .close-button {
 
-.tab.active {
+            width: 36px;
 
-    background: #111;
+            height: 36px;
 
-    color: white;
+            padding: 0;
 
-}
+            border: 0;
 
+            background: transparent;
 
-/* Form */
+            color: #444;
 
-.form-group {
+            font-size: 28px;
 
-    margin-bottom: 16px;
+            cursor: pointer;
 
-}
+        }
 
 
-.form-label {
+        /* ======================================== */
+        /* Tabs */
+        /* ======================================== */
 
-    display: block;
+        .tabs {
 
-    font-weight: 600;
+            display: flex;
 
-    margin-bottom: 7px;
+            gap: 8px;
 
-}
+            margin-bottom: 24px;
 
+        }
 
-.form-input {
 
-    width: 100%;
+        .tab {
 
-    padding: 12px 13px;
+            flex: 1;
 
-    border-radius: 9px;
+            padding: 10px;
 
-    border: 1px solid #ccc;
+            border: 1px solid #ddd;
 
-    font-size: 16px;
+            border-radius: 9px;
 
-}
+            background: white;
 
+            color: #222;
 
-.form-button {
+            cursor: pointer;
 
-    width: 100%;
+        }
 
-    padding: 12px;
 
-    border: 0;
+        .tab.active {
 
-    border-radius: 9px;
+            color: white;
 
-    background: #111;
+            background: #111;
 
-    color: white;
+            border-color: #111;
 
-    cursor: pointer;
+        }
 
-    font-size: 15px;
 
-}
+        /* ======================================== */
+        /* Forms */
+        /* ======================================== */
 
+        .form-group {
 
-.form-button.secondary {
+            margin-bottom: 16px;
 
-    margin-top: 8px;
+        }
 
-    background: #eee;
 
-    color: #222;
+        .form-label {
 
-}
+            display: block;
 
+            margin-bottom: 7px;
 
-.form-button:disabled {
+            font-size: 14px;
 
-    opacity: .5;
+            font-weight: 600;
 
-    cursor: not-allowed;
+        }
 
-}
 
+        .form-input {
 
-.form-status {
+            width: 100%;
 
-    margin-top: 15px;
+            padding: 12px 13px;
 
-    min-height: 20px;
+            border: 1px solid #ccc;
 
-    font-size: 14px;
+            border-radius: 9px;
 
-}
+            background: white;
 
+            color: #222;
 
-.form-status.error {
+            font-size: 16px;
 
-    color: #b00020;
+            outline: none;
 
-}
+        }
 
 
-.form-status.success {
+        .form-input:focus {
 
-    color: #087f23;
+            border-color: #777;
 
-}
+            box-shadow:
+                0 0 0 3px
+                rgba(0, 0, 0, .05);
 
+        }
 
-.account-preview {
 
-    background: #f4f5f7;
+        .form-button {
 
-    border-radius: 10px;
+            width: 100%;
 
-    padding: 11px;
+            padding: 12px;
 
-    margin-bottom: 16px;
+            border: 0;
 
-    font-size: 13px;
+            border-radius: 9px;
 
-}
+            background: #111;
 
+            color: white;
 
-footer {
+            font-size: 15px;
 
-    text-align: center;
+            cursor: pointer;
 
-    padding: 25px;
+        }
 
-    color: #aaa;
 
-    font-size: 12px;
+        .form-button:hover {
 
-}
+            opacity: .88;
 
+        }
 
-@media (max-width: 600px) {
 
-    header {
+        .form-button.secondary {
 
-        padding: 10px 16px;
+            margin-top: 8px;
 
-    }
+            background: #eee;
 
-    .logo {
+            color: #222;
 
-        font-size: 25px;
+        }
 
-    }
 
-    main {
+        .form-button:disabled {
 
-        padding: 45px 18px;
+            opacity: .5;
 
-    }
+            cursor: not-allowed;
 
-    .hero h1 {
+        }
 
-        font-size: 38px;
 
-    }
+        .form-status {
 
-    .user-email {
+            min-height: 22px;
 
-        display: none;
+            margin-top: 15px;
 
-    }
+            font-size: 14px;
 
-}
+            line-height: 1.5;
 
-</style>
+        }
+
+
+        .form-status.error {
+
+            color: #b00020;
+
+        }
+
+
+        .form-status.success {
+
+            color: #087f23;
+
+        }
+
+
+        .account-preview {
+
+            margin-bottom: 16px;
+
+            padding: 11px 13px;
+
+            background: #f4f5f7;
+
+            border-radius: 10px;
+
+            color: #444;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .code-help {
+
+            margin-top: 9px;
+
+            color: #888;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+        }
+
+
+        #register-code {
+
+            text-align: center;
+
+            letter-spacing: 7px;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* ======================================== */
+        /* Footer */
+        /* ======================================== */
+
+        footer {
+
+            padding: 30px 20px;
+
+            color: #999;
+
+            text-align: center;
+
+            font-size: 12px;
+
+        }
+
+
+        /* ======================================== */
+        /* Mobile */
+        /* ======================================== */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding: 10px 16px;
+
+            }
+
+
+            .logo {
+
+                font-size: 25px;
+
+            }
+
+
+            main {
+
+                padding:
+                    45px
+                    18px
+                    60px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 38px;
+
+            }
+
+
+            .user-email {
+
+                display: none;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            #home-links {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .user-info {
+
+                display: none;
+
+            }
+
+
+            .auth-button {
+
+                padding: 8px 11px;
+
+            }
+
+
+            .modal-card {
+
+                padding: 22px;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -562,19 +739,19 @@ footer {
 
 <header>
 
-<a
-    class="logo"
-    href="./"
->
-602ZR
-</a>
+    <a
+        href="./"
+        class="logo"
+    >
+        602ZR
+    </a>
 
 
-<div id="auth-area">
+    <div id="auth-area">
 
-<!-- app.js 自動產生 -->
+        <!-- app.js 會自動建立登入／註冊按鈕 -->
 
-</div>
+    </div>
 
 </header>
 
@@ -582,316 +759,451 @@ footer {
 
 <main>
 
-<section class="hero">
 
-<h1>
-602ZR
-</h1>
+    <section class="hero">
 
-<p>
-Pokémon Trading Card Game Platform
-</p>
+        <h1>
+            602ZR
+        </h1>
 
-</section>
+        <p>
+            Pokémon Trading Card Game Platform
+        </p>
+
+    </section>
 
 
-<section id="home-links"></section>
+    <section id="home-links">
+
+        <!-- app.js 自動建立 -->
+
+    </section>
+
 
 </main>
 
 
 
 <footer>
-602ZR
+    602ZR
 </footer>
 
 
 
-<!-- ============================== -->
-<!-- 會員登入視窗 -->
-<!-- ============================== -->
+<!-- ================================================== -->
+<!-- Account Modal -->
+<!-- ================================================== -->
 
 <div
     id="auth-modal"
     class="modal hidden"
 >
 
-<div class="modal-card">
 
+    <div class="modal-card">
 
-<div class="modal-header">
 
-<div class="modal-title">
-602ZR 帳號
-</div>
+        <div class="modal-header">
 
-<button
-    id="close-auth"
-    class="close-button"
->
-×
-</button>
+            <div class="modal-title">
+                602ZR 帳號
+            </div>
 
-</div>
 
+            <button
+                id="close-auth"
+                class="close-button"
+                type="button"
+                aria-label="關閉"
+            >
+                ×
+            </button>
 
+        </div>
 
-<div class="tabs">
 
-<button
-    id="login-tab"
-    class="tab active"
->
-登入
-</button>
 
-<button
-    id="register-tab"
-    class="tab"
->
-註冊
-</button>
+        <!-- Tabs -->
 
-</div>
+        <div class="tabs">
 
+            <button
+                id="login-tab"
+                class="tab active"
+                type="button"
+            >
+                登入
+            </button>
 
 
-<!-- ============================== -->
-<!-- 登入 -->
-<!-- ============================== -->
+            <button
+                id="register-tab"
+                class="tab"
+                type="button"
+            >
+                註冊
+            </button>
 
-<div id="login-panel">
+        </div>
 
 
-<!-- Login Step 1 -->
 
-<div id="login-step-1">
+        <!-- ================================================== -->
+        <!-- Login -->
+        <!-- ================================================== -->
 
-<div class="form-group">
+        <div id="login-panel">
 
-<label class="form-label">
-帳號
-</label>
 
-<input
-    id="login-username"
-    class="form-input"
-    type="text"
-    autocomplete="username"
-    placeholder="輸入 602ZR 帳號"
->
+            <!-- Login Step 1 -->
 
-</div>
+            <div id="login-step-1">
 
+                <div class="form-group">
 
-<button
-    id="login-check-account"
-    class="form-button"
->
-下一步
-</button>
+                    <label
+                        for="login-username"
+                        class="form-label"
+                    >
+                        帳號
+                    </label>
 
-</div>
 
+                    <input
+                        id="login-username"
+                        class="form-input"
+                        type="text"
+                        autocomplete="username"
+                        maxlength="24"
+                        placeholder="輸入 602ZR 帳號"
+                    >
 
+                </div>
 
-<!-- Login Step 2 -->
 
-<div
-    id="login-step-2"
-    class="hidden"
->
+                <button
+                    id="login-check-account"
+                    class="form-button"
+                    type="button"
+                >
+                    下一步
+                </button>
 
-<div
-    id="login-account-preview"
-    class="account-preview"
-></div>
+            </div>
 
 
-<div class="form-group">
 
-<label class="form-label">
-密碼
-</label>
+            <!-- Login Step 2 -->
 
-<input
-    id="login-password"
-    class="form-input"
-    type="password"
-    autocomplete="current-password"
-    placeholder="輸入密碼"
->
+            <div
+                id="login-step-2"
+                class="hidden"
+            >
 
-</div>
+                <div
+                    id="login-account-preview"
+                    class="account-preview"
+                ></div>
 
 
-<button
-    id="login-submit"
-    class="form-button"
->
-登入
-</button>
+                <div class="form-group">
 
+                    <label
+                        for="login-password"
+                        class="form-label"
+                    >
+                        密碼
+                    </label>
 
-<button
-    id="login-back"
-    class="form-button secondary"
->
-返回
-</button>
 
-</div>
+                    <input
+                        id="login-password"
+                        class="form-input"
+                        type="password"
+                        autocomplete="current-password"
+                        maxlength="128"
+                        placeholder="輸入密碼"
+                    >
 
+                </div>
 
-<div
-    id="login-status"
-    class="form-status"
-></div>
 
-</div>
+                <button
+                    id="login-submit"
+                    class="form-button"
+                    type="button"
+                >
+                    登入
+                </button>
 
 
+                <button
+                    id="login-back"
+                    class="form-button secondary"
+                    type="button"
+                >
+                    返回
+                </button>
 
-<!-- ============================== -->
-<!-- 註冊 -->
-<!-- ============================== -->
+            </div>
 
-<div
-    id="register-panel"
-    class="hidden"
->
 
+            <div
+                id="login-status"
+                class="form-status"
+            ></div>
 
-<!-- Register Step 1 -->
 
-<div id="register-step-1">
+        </div>
 
-<div class="form-group">
 
-<label class="form-label">
-Email
-</label>
 
-<input
-    id="register-email"
-    class="form-input"
-    type="email"
-    autocomplete="email"
-    placeholder="name@example.com"
->
+        <!-- ================================================== -->
+        <!-- Register -->
+        <!-- ================================================== -->
 
-</div>
+        <div
+            id="register-panel"
+            class="hidden"
+        >
 
 
-<button
-    id="register-check-email"
-    class="form-button"
->
-檢查 Email
-</button>
+            <!-- Step 1：Email -->
 
-</div>
+            <div id="register-step-1">
 
 
+                <div class="form-group">
 
-<!-- Register Step 2 -->
+                    <label
+                        for="register-email"
+                        class="form-label"
+                    >
+                        Email
+                    </label>
 
-<div
-    id="register-step-2"
-    class="hidden"
->
 
+                    <input
+                        id="register-email"
+                        class="form-input"
+                        type="email"
+                        autocomplete="email"
+                        maxlength="200"
+                        placeholder="name@example.com"
+                    >
 
-<div
-    id="register-email-preview"
-    class="account-preview"
-></div>
+                </div>
 
 
-<div class="form-group">
+                <button
+                    id="register-send-code"
+                    class="form-button"
+                    type="button"
+                >
+                    寄送 6 位數驗證碼
+                </button>
 
-<label class="form-label">
-自訂帳號
-</label>
 
-<input
-    id="register-username"
-    class="form-input"
-    type="text"
-    autocomplete="username"
-    placeholder="例如 602ZRPlayer"
->
+                <div class="code-help">
+                    驗證碼會寄到這個 Email。
+                    驗證成功後才能設定 602ZR 帳號與密碼。
+                </div>
 
-</div>
+            </div>
 
 
-<div class="form-group">
 
-<label class="form-label">
-密碼
-</label>
+            <!-- Step 2：Email Code -->
 
-<input
-    id="register-password"
-    class="form-input"
-    type="password"
-    autocomplete="new-password"
-    placeholder="至少 8 個字元"
->
+            <div
+                id="register-step-2"
+                class="hidden"
+            >
 
-</div>
 
+                <div
+                    id="register-email-code-preview"
+                    class="account-preview"
+                ></div>
 
-<div class="form-group">
 
-<label class="form-label">
-再次輸入密碼
-</label>
+                <div class="form-group">
 
-<input
-    id="register-password-confirm"
-    class="form-input"
-    type="password"
-    autocomplete="new-password"
-    placeholder="再次輸入密碼"
->
+                    <label
+                        for="register-code"
+                        class="form-label"
+                    >
+                        6 位數 Email 驗證碼
+                    </label>
 
-</div>
 
+                    <input
+                        id="register-code"
+                        class="form-input"
+                        type="text"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        pattern="[0-9]*"
+                        placeholder="000000"
+                    >
 
-<button
-    id="register-submit"
-    class="form-button"
->
-建立帳號
-</button>
+                </div>
 
 
-<button
-    id="register-back"
-    class="form-button secondary"
->
-返回
-</button>
+                <button
+                    id="register-verify-code"
+                    class="form-button"
+                    type="button"
+                >
+                    驗證
+                </button>
 
-</div>
 
+                <button
+                    id="register-resend-code"
+                    class="form-button secondary"
+                    type="button"
+                >
+                    重新寄送驗證碼
+                </button>
 
-<div
-    id="register-status"
-    class="form-status"
-></div>
 
-</div>
+                <button
+                    id="register-back-email"
+                    class="form-button secondary"
+                    type="button"
+                >
+                    修改 Email
+                </button>
 
 
-</div>
+                <div class="code-help">
+                    驗證碼有效時間為 10 分鐘。
+                </div>
+
+            </div>
+
+
+
+            <!-- Step 3：Username + Password -->
+
+            <div
+                id="register-step-3"
+                class="hidden"
+            >
+
+
+                <div
+                    id="register-email-preview"
+                    class="account-preview"
+                ></div>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="register-username"
+                        class="form-label"
+                    >
+                        自訂帳號
+                    </label>
+
+
+                    <input
+                        id="register-username"
+                        class="form-input"
+                        type="text"
+                        autocomplete="username"
+                        maxlength="24"
+                        placeholder="例如 602ZRPlayer"
+                    >
+
+                </div>
+
+
+                <div class="code-help">
+                    帳號可使用 3–24 個英文字母、數字或底線。
+                </div>
+
+
+                <br>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="register-password"
+                        class="form-label"
+                    >
+                        密碼
+                    </label>
+
+
+                    <input
+                        id="register-password"
+                        class="form-input"
+                        type="password"
+                        autocomplete="new-password"
+                        maxlength="128"
+                        placeholder="至少 8 個字元"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="register-password-confirm"
+                        class="form-label"
+                    >
+                        再次輸入密碼
+                    </label>
+
+
+                    <input
+                        id="register-password-confirm"
+                        class="form-input"
+                        type="password"
+                        autocomplete="new-password"
+                        maxlength="128"
+                        placeholder="再次輸入密碼"
+                    >
+
+                </div>
+
+
+                <button
+                    id="register-submit"
+                    class="form-button"
+                    type="button"
+                >
+                    建立帳號
+                </button>
+
+
+            </div>
+
+
+            <div
+                id="register-status"
+                class="form-status"
+            ></div>
+
+
+        </div>
+
+
+    </div>
+
 
 </div>
 
 
 
 <script src="./app.js"></script>
+
 
 </body>
 
