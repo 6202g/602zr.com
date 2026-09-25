@@ -1,24 +1,24 @@
 // ======================================================
-// 602ZR
+// 602ZR Frontend
 // app.js
 // ======================================================
 
 
 // ======================================================
-// GAS Backend
+// CONFIG
 // ======================================================
 
 const GAS_URL =
-    "https://script.google.com/macros/s/AKfycby18aC5opfqVhz5iA21SAOl3VcEfuGY85C6zfzD1OIWa55q-JzA5ocGtIdLbdcQZX_g/exec";
+    "PASTE_YOUR_GAS_WEB_APP_URL_HERE";
 
-
-// ======================================================
-// GitHub Pages
-// ======================================================
 
 const REPO_NAME =
     "602zr.com";
 
+
+// ======================================================
+// GitHub Pages Path
+// ======================================================
 
 const IS_GITHUB_PAGES =
     window.location.hostname.endsWith(
@@ -32,24 +32,34 @@ const BASE_PATH =
         : "";
 
 
+
 function siteURL(path = "/") {
 
     if (!path.startsWith("/")) {
-        path = "/" + path;
+
+        path =
+            "/" + path;
+
     }
 
-    return BASE_PATH + path;
+
+    return (
+        BASE_PATH +
+        path
+    );
 
 }
 
 
+
 // ======================================================
-// 首頁
+// HOME LINKS
 // ======================================================
 
 const SITE_LINKS = [
 
     {
+
         title:
             "⚔️ 對戰模擬",
 
@@ -58,9 +68,11 @@ const SITE_LINKS = [
 
         url:
             siteURL("/game/")
+
     },
 
     {
+
         title:
             "🃏 牌組編輯",
 
@@ -69,9 +81,11 @@ const SITE_LINKS = [
 
         url:
             siteURL("/deck/")
+
     },
 
     {
+
         title:
             "🔴 PTCG 訓練家網站臺灣",
 
@@ -83,9 +97,11 @@ const SITE_LINKS = [
 
         external:
             true
+
     },
 
     {
+
         title:
             "🏆 最新賽事",
 
@@ -94,130 +110,197 @@ const SITE_LINKS = [
 
         url:
             siteURL("/contest/")
+
     },
 
     {
+
         title:
             "💬 聊天平台",
 
         description:
-            "進入 602ZR 玩家聊天室",
+            "進入 602ZR 玩家聊天平台",
 
         url:
             siteURL("/chat/")
+
     }
 
 ];
 
 
-// ======================================================
-// State
-// ======================================================
-
-let pendingRegisterEmail = "";
-
-let pendingLoginUsername = "";
-
-let currentUser = null;
-
 
 // ======================================================
-// Start
+// STATE
+// ======================================================
+
+let pendingRegisterEmail =
+    "";
+
+
+let registerVerificationToken =
+    "";
+
+
+let pendingLoginUsername =
+    "";
+
+
+let currentUser =
+    null;
+
+
+
+// ======================================================
+// START
 // ======================================================
 
 document.addEventListener(
+
     "DOMContentLoaded",
-    async () => {
+
+    async function () {
+
 
         renderNavigation();
 
+
         setupAuthUI();
+
 
         renderLoggedOut();
 
+
         await restoreSession();
 
+
     }
+
 );
 
 
+
 // ======================================================
-// 首頁 Menu
+// NAVIGATION
 // ======================================================
 
 function renderNavigation() {
+
 
     const container =
         document.getElementById(
             "home-links"
         );
 
+
     if (!container) {
+
         return;
+
     }
 
-    container.innerHTML = "";
+
+    container.innerHTML =
+        "";
 
 
-    SITE_LINKS.forEach(item => {
+    SITE_LINKS.forEach(
 
-        const a =
-            document.createElement("a");
-
-        a.className =
-            "menu-card";
-
-        a.href =
-            item.url;
+        function (item) {
 
 
-        if (item.external) {
+            const link =
+                document.createElement(
+                    "a"
+                );
 
-            a.target =
-                "_blank";
 
-            a.rel =
-                "noopener noreferrer";
+            link.className =
+                "menu-card";
+
+
+            link.href =
+                item.url;
+
+
+            if (
+                item.external
+            ) {
+
+
+                link.target =
+                    "_blank";
+
+
+                link.rel =
+                    "noopener noreferrer";
+
+
+            }
+
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+
+            title.className =
+                "menu-title";
+
+
+            title.textContent =
+                item.title;
+
+
+
+            const description =
+                document.createElement(
+                    "div"
+                );
+
+
+            description.className =
+                "menu-description";
+
+
+            description.textContent =
+                item.description;
+
+
+
+            link.appendChild(
+                title
+            );
+
+
+            link.appendChild(
+                description
+            );
+
+
+            container.appendChild(
+                link
+            );
+
 
         }
 
-
-        const title =
-            document.createElement("div");
-
-        title.className =
-            "menu-title";
-
-        title.textContent =
-            item.title;
-
-
-        const description =
-            document.createElement("div");
-
-        description.className =
-            "menu-description";
-
-        description.textContent =
-            item.description;
-
-
-        a.appendChild(title);
-
-        a.appendChild(description);
-
-        container.appendChild(a);
-
-    });
+    );
 
 }
+
 
 
 // ======================================================
 // API
 // ======================================================
 
-async function api(action, data = {}) {
+async function api(
+    action,
+    data = {}
+) {
+
 
     if (
         !GAS_URL ||
@@ -226,9 +309,11 @@ async function api(action, data = {}) {
         )
     ) {
 
+
         throw new Error(
             "尚未設定 GAS 後端網址"
         );
+
 
     }
 
@@ -253,7 +338,9 @@ async function api(action, data = {}) {
                 body:
                     JSON.stringify({
 
-                        action,
+                        action:
+                            action,
+
                         ...data
 
                     })
@@ -263,25 +350,54 @@ async function api(action, data = {}) {
         );
 
 
-    if (!response.ok) {
+    if (
+        !response.ok
+    ) {
+
 
         throw new Error(
-            "伺服器連線失敗"
+            "無法連線至伺服器"
         );
+
 
     }
 
 
-    return await response.json();
+    let result;
+
+
+    try {
+
+
+        result =
+            await response.json();
+
+
+    }
+
+    catch {
+
+
+        throw new Error(
+            "伺服器回傳格式錯誤"
+        );
+
+
+    }
+
+
+    return result;
 
 }
 
 
+
 // ======================================================
-// Auth UI
+// AUTH UI
 // ======================================================
 
 function setupAuthUI() {
+
 
     const modal =
         document.getElementById(
@@ -289,30 +405,51 @@ function setupAuthUI() {
         );
 
 
+    if (!modal) {
+
+        return;
+
+    }
+
+
+
     document
         .getElementById(
             "close-auth"
         )
         .addEventListener(
+
             "click",
+
             closeAuthModal
+
         );
 
 
+
     modal.addEventListener(
+
         "click",
-        event => {
+
+        function (event) {
+
 
             if (
-                event.target === modal
+                event.target ===
+                modal
             ) {
+
 
                 closeAuthModal();
 
+
             }
 
+
         }
+
     );
+
 
 
     document
@@ -320,9 +457,21 @@ function setupAuthUI() {
             "login-tab"
         )
         .addEventListener(
+
             "click",
-            () => switchTab("login")
+
+            function () {
+
+
+                switchTab(
+                    "login"
+                );
+
+
+            }
+
         );
+
 
 
     document
@@ -330,9 +479,21 @@ function setupAuthUI() {
             "register-tab"
         )
         .addEventListener(
+
             "click",
-            () => switchTab("register")
+
+            function () {
+
+
+                switchTab(
+                    "register"
+                );
+
+
+            }
+
         );
+
 
 
     document
@@ -340,9 +501,13 @@ function setupAuthUI() {
             "login-check-account"
         )
         .addEventListener(
+
             "click",
+
             checkLoginAccount
+
         );
+
 
 
     document
@@ -350,9 +515,13 @@ function setupAuthUI() {
             "login-submit"
         )
         .addEventListener(
+
             "click",
+
             login
+
         );
+
 
 
     document
@@ -360,19 +529,69 @@ function setupAuthUI() {
             "login-back"
         )
         .addEventListener(
+
             "click",
+
             resetLogin
+
         );
+
 
 
     document
         .getElementById(
-            "register-check-email"
+            "register-send-code"
         )
         .addEventListener(
+
             "click",
-            checkRegisterEmail
+
+            sendRegisterVerificationCode
+
         );
+
+
+
+    document
+        .getElementById(
+            "register-resend-code"
+        )
+        .addEventListener(
+
+            "click",
+
+            sendRegisterVerificationCode
+
+        );
+
+
+
+    document
+        .getElementById(
+            "register-verify-code"
+        )
+        .addEventListener(
+
+            "click",
+
+            verifyRegisterCode
+
+        );
+
+
+
+    document
+        .getElementById(
+            "register-back-email"
+        )
+        .addEventListener(
+
+            "click",
+
+            resetRegister
+
+        );
+
 
 
     document
@@ -380,28 +599,114 @@ function setupAuthUI() {
             "register-submit"
         )
         .addEventListener(
+
             "click",
+
             register
+
         );
+
 
 
     document
         .getElementById(
-            "register-back"
+            "register-code"
         )
         .addEventListener(
-            "click",
-            resetRegister
+
+            "input",
+
+            function () {
+
+
+                this.value =
+                    this.value
+                        .replace(
+                            /\D/g,
+                            ""
+                        )
+                        .slice(
+                            0,
+                            6
+                        );
+
+
+            }
+
+        );
+
+
+
+    document
+        .getElementById(
+            "login-password"
+        )
+        .addEventListener(
+
+            "keydown",
+
+            function (event) {
+
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+
+                    login();
+
+
+                }
+
+
+            }
+
+        );
+
+
+
+    document
+        .getElementById(
+            "register-code"
+        )
+        .addEventListener(
+
+            "keydown",
+
+            function (event) {
+
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+
+                    verifyRegisterCode();
+
+
+                }
+
+
+            }
+
         );
 
 }
 
 
+
 // ======================================================
-// Logged Out UI
+// LOGGED OUT
 // ======================================================
 
 function renderLoggedOut() {
+
+
+    currentUser =
+        null;
+
 
     const area =
         document.getElementById(
@@ -409,69 +714,111 @@ function renderLoggedOut() {
         );
 
 
-    area.innerHTML = "";
+    if (!area) {
+
+        return;
+
+    }
 
 
-    const login =
+    area.innerHTML =
+        "";
+
+
+
+    const loginButton =
         document.createElement(
             "button"
         );
 
-    login.className =
+
+    loginButton.className =
         "auth-button primary";
 
-    login.textContent =
+
+    loginButton.type =
+        "button";
+
+
+    loginButton.textContent =
         "登入";
 
 
-    login.addEventListener(
+    loginButton.addEventListener(
+
         "click",
-        () => {
+
+        function () {
+
 
             openAuthModal(
                 "login"
             );
 
+
         }
+
     );
 
 
-    const register =
+
+    const registerButton =
         document.createElement(
             "button"
         );
 
-    register.className =
+
+    registerButton.className =
         "auth-button";
 
-    register.textContent =
+
+    registerButton.type =
+        "button";
+
+
+    registerButton.textContent =
         "註冊";
 
 
-    register.addEventListener(
+    registerButton.addEventListener(
+
         "click",
-        () => {
+
+        function () {
+
 
             openAuthModal(
                 "register"
             );
 
+
         }
+
     );
 
 
-    area.appendChild(login);
 
-    area.appendChild(register);
+    area.appendChild(
+        loginButton
+    );
+
+
+    area.appendChild(
+        registerButton
+    );
 
 }
 
 
+
 // ======================================================
-// Logged In UI
+// LOGGED IN
 // ======================================================
 
-function renderLoggedIn(user) {
+function renderLoggedIn(
+    user
+) {
+
 
     currentUser =
         user;
@@ -483,43 +830,79 @@ function renderLoggedIn(user) {
         );
 
 
-    area.innerHTML = "";
+    if (!area) {
+
+        return;
+
+    }
+
+
+    area.innerHTML =
+        "";
+
 
 
     const box =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     box.className =
         "user-box";
 
 
+
     const info =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
+
+    info.className =
+        "user-info";
+
 
 
     const name =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     name.className =
         "user-name";
 
+
     name.textContent =
-        user.username;
+        user.username || "";
+
 
 
     const email =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     email.className =
         "user-email";
+
 
     email.textContent =
         user.email || "";
 
 
-    info.appendChild(name);
 
-    info.appendChild(email);
+    info.appendChild(
+        name
+    );
+
+
+    info.appendChild(
+        email
+    );
+
 
 
     const logoutButton =
@@ -527,65 +910,101 @@ function renderLoggedIn(user) {
             "button"
         );
 
+
     logoutButton.className =
         "auth-button";
+
+
+    logoutButton.type =
+        "button";
+
 
     logoutButton.textContent =
         "登出";
 
 
     logoutButton.addEventListener(
+
         "click",
+
         logout
+
     );
 
 
-    box.appendChild(info);
 
-    box.appendChild(logoutButton);
+    box.appendChild(
+        info
+    );
 
-    area.appendChild(box);
+
+    box.appendChild(
+        logoutButton
+    );
+
+
+    area.appendChild(
+        box
+    );
 
 }
 
 
+
 // ======================================================
-// Modal
+// MODAL
 // ======================================================
 
-function openAuthModal(tab) {
+function openAuthModal(
+    tab
+) {
 
-    document
-        .getElementById(
+
+    const modal =
+        document.getElementById(
             "auth-modal"
-        )
-        .classList
-        .remove("hidden");
+        );
 
 
-    switchTab(tab);
+    modal.classList.remove(
+        "hidden"
+    );
+
+
+    switchTab(
+        tab
+    );
 
 }
+
 
 
 function closeAuthModal() {
 
+
     document
         .getElementById(
             "auth-modal"
         )
         .classList
-        .add("hidden");
+        .add(
+            "hidden"
+        );
 
 }
 
 
-function switchTab(tab) {
+
+function switchTab(
+    tab
+) {
+
 
     const loginTab =
         document.getElementById(
             "login-tab"
         );
+
 
     const registerTab =
         document.getElementById(
@@ -598,127 +1017,197 @@ function switchTab(tab) {
             "login-panel"
         );
 
+
     const registerPanel =
         document.getElementById(
             "register-panel"
         );
 
 
-    if (tab === "login") {
+
+    if (
+        tab ===
+        "login"
+    ) {
+
 
         loginTab.classList.add(
             "active"
         );
 
+
         registerTab.classList.remove(
             "active"
         );
+
 
         loginPanel.classList.remove(
             "hidden"
         );
 
+
         registerPanel.classList.add(
             "hidden"
         );
+
 
     }
 
     else {
 
+
         registerTab.classList.add(
             "active"
         );
+
 
         loginTab.classList.remove(
             "active"
         );
 
+
         registerPanel.classList.remove(
             "hidden"
         );
 
+
         loginPanel.classList.add(
             "hidden"
         );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Register Step 1
+// SEND EMAIL CODE
 // ======================================================
 
-async function checkRegisterEmail() {
+async function sendRegisterVerificationCode() {
 
-    const email =
-        document
-            .getElementById(
-                "register-email"
-            )
-            .value
-            .trim();
+
+    let email =
+        pendingRegisterEmail;
+
+
+    if (!email) {
+
+
+        email =
+            document
+                .getElementById(
+                    "register-email"
+                )
+                .value
+                .trim();
+
+
+    }
+
+
+    if (!email) {
+
+
+        setStatus(
+
+            "register-status",
+
+            "請輸入 Email。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
 
 
     setStatus(
+
         "register-status",
-        "正在檢查 Email...",
+
+        "正在寄送驗證碼...",
+
         ""
+
     );
+
+
+
+    setButtonDisabled(
+        "register-send-code",
+        true
+    );
+
+
+    setButtonDisabled(
+        "register-resend-code",
+        true
+    );
+
 
 
     try {
 
+
         const result =
             await api(
 
-                "checkEmail",
+                "sendVerificationCode",
 
                 {
-                    email
+
+                    email:
+                        email
+
                 }
 
             );
 
 
-        if (!result.ok) {
+
+        if (
+            !result.ok
+        ) {
+
 
             setStatus(
+
                 "register-status",
-                result.message,
+
+                result.message ||
+                    "無法寄送驗證碼。",
+
                 "error"
+
             );
+
 
             return;
 
         }
 
-
-        if (!result.available) {
-
-            setStatus(
-                "register-status",
-                "此 Email 已經綁定其他帳號。",
-                "error"
-            );
-
-            return;
-
-        }
 
 
         pendingRegisterEmail =
             email;
 
 
+
         document
             .getElementById(
-                "register-email-preview"
+                "register-email-code-preview"
             )
             .textContent =
-            "Email：" + email;
+            "驗證碼已寄送至：" +
+            email;
+
 
 
         document
@@ -726,7 +1215,10 @@ async function checkRegisterEmail() {
                 "register-step-1"
             )
             .classList
-            .add("hidden");
+            .add(
+                "hidden"
+            );
+
 
 
         document
@@ -734,35 +1226,292 @@ async function checkRegisterEmail() {
                 "register-step-2"
             )
             .classList
-            .remove("hidden");
+            .remove(
+                "hidden"
+            );
+
 
 
         setStatus(
+
             "register-status",
-            "Email 可以使用。",
+
+            "驗證碼已寄出，請檢查 Email。",
+
             "success"
+
         );
+
 
     }
 
     catch (error) {
 
+
         setStatus(
+
             "register-status",
+
             error.message,
+
             "error"
+
         );
+
+
+    }
+
+    finally {
+
+
+        setButtonDisabled(
+            "register-send-code",
+            false
+        );
+
+
+        setButtonDisabled(
+            "register-resend-code",
+            false
+        );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Register
+// VERIFY EMAIL CODE
+// ======================================================
+
+async function verifyRegisterCode() {
+
+
+    const code =
+        document
+            .getElementById(
+                "register-code"
+            )
+            .value
+            .trim();
+
+
+
+    if (
+        !/^\d{6}$/.test(
+            code
+        )
+    ) {
+
+
+        setStatus(
+
+            "register-status",
+
+            "請輸入完整的 6 位數驗證碼。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        !pendingRegisterEmail
+    ) {
+
+
+        setStatus(
+
+            "register-status",
+
+            "請重新輸入 Email。",
+
+            "error"
+
+        );
+
+
+        resetRegister();
+
+
+        return;
+
+    }
+
+
+
+    setStatus(
+
+        "register-status",
+
+        "正在驗證...",
+
+        ""
+
+    );
+
+
+    setButtonDisabled(
+        "register-verify-code",
+        true
+    );
+
+
+
+    try {
+
+
+        const result =
+            await api(
+
+                "verifyEmailCode",
+
+                {
+
+                    email:
+                        pendingRegisterEmail,
+
+                    code:
+                        code
+
+                }
+
+            );
+
+
+
+        if (
+            !result.ok
+        ) {
+
+
+            setStatus(
+
+                "register-status",
+
+                result.message ||
+                    "驗證失敗。",
+
+                "error"
+
+            );
+
+
+            return;
+
+        }
+
+
+
+        if (
+            !result.verificationToken
+        ) {
+
+
+            throw new Error(
+                "伺服器沒有回傳驗證 Token"
+            );
+
+
+        }
+
+
+
+        registerVerificationToken =
+            result.verificationToken;
+
+
+
+        document
+            .getElementById(
+                "register-email-preview"
+            )
+            .textContent =
+            "✓ Email 已驗證：" +
+            pendingRegisterEmail;
+
+
+
+        document
+            .getElementById(
+                "register-step-2"
+            )
+            .classList
+            .add(
+                "hidden"
+            );
+
+
+
+        document
+            .getElementById(
+                "register-step-3"
+            )
+            .classList
+            .remove(
+                "hidden"
+            );
+
+
+
+        setStatus(
+
+            "register-status",
+
+            "Email 驗證成功，請設定帳號與密碼。",
+
+            "success"
+
+        );
+
+
+    }
+
+    catch (error) {
+
+
+        setStatus(
+
+            "register-status",
+
+            error.message,
+
+            "error"
+
+        );
+
+
+    }
+
+    finally {
+
+
+        setButtonDisabled(
+            "register-verify-code",
+            false
+        );
+
+
+    }
+
+}
+
+
+
+// ======================================================
+// REGISTER
 // ======================================================
 
 async function register() {
+
 
     const username =
         document
@@ -789,27 +1538,119 @@ async function register() {
             .value;
 
 
-    if (password !== confirm) {
+
+    if (
+        !registerVerificationToken
+    ) {
+
 
         setStatus(
+
             "register-status",
-            "兩次輸入的密碼不同。",
+
+            "請先完成 Email 驗證。",
+
             "error"
+
         );
+
 
         return;
 
     }
 
 
+
+    if (
+        !/^[A-Za-z0-9_]{3,24}$/.test(
+            username
+        )
+    ) {
+
+
+        setStatus(
+
+            "register-status",
+
+            "帳號需為 3–24 個英文字母、數字或底線。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        password.length <
+        8
+    ) {
+
+
+        setStatus(
+
+            "register-status",
+
+            "密碼至少需要 8 個字元。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        password !==
+        confirm
+    ) {
+
+
+        setStatus(
+
+            "register-status",
+
+            "兩次輸入的密碼不同。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
     setStatus(
+
         "register-status",
+
         "正在建立帳號...",
+
         ""
+
     );
 
 
+    setButtonDisabled(
+        "register-submit",
+        true
+    );
+
+
+
     try {
+
 
         const result =
             await api(
@@ -821,39 +1662,68 @@ async function register() {
                     email:
                         pendingRegisterEmail,
 
-                    username,
+                    username:
+                        username,
 
-                    password
+                    password:
+                        password,
+
+                    verificationToken:
+                        registerVerificationToken
 
                 }
 
             );
 
 
-        if (!result.ok) {
+
+        if (
+            !result.ok
+        ) {
+
 
             setStatus(
+
                 "register-status",
-                result.message,
+
+                result.message ||
+                    "帳號建立失敗。",
+
                 "error"
+
             );
+
 
             return;
 
         }
 
 
+
+        const newUsername =
+            username;
+
+
+
         setStatus(
+
             "register-status",
+
             "帳號建立成功，請登入。",
+
             "success"
+
         );
 
 
+
         setTimeout(
-            () => {
+
+            function () {
+
 
                 resetRegister();
+
 
                 switchTab(
                     "login"
@@ -865,33 +1735,55 @@ async function register() {
                         "login-username"
                     )
                     .value =
-                    username;
+                    newUsername;
+
 
             },
 
-            800
+            700
+
         );
+
 
     }
 
     catch (error) {
 
+
         setStatus(
+
             "register-status",
+
             error.message,
+
             "error"
+
         );
+
+
+    }
+
+    finally {
+
+
+        setButtonDisabled(
+            "register-submit",
+            false
+        );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Login Step 1
+// CHECK LOGIN USERNAME
 // ======================================================
 
 async function checkLoginAccount() {
+
 
     const username =
         document
@@ -902,14 +1794,49 @@ async function checkLoginAccount() {
             .trim();
 
 
+
+    if (
+        !username
+    ) {
+
+
+        setStatus(
+
+            "login-status",
+
+            "請輸入帳號。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
     setStatus(
+
         "login-status",
+
         "正在確認帳號...",
+
         ""
+
     );
 
 
+    setButtonDisabled(
+        "login-check-account",
+        true
+    );
+
+
+
     try {
+
 
         const result =
             await api(
@@ -917,40 +1844,64 @@ async function checkLoginAccount() {
                 "checkUsername",
 
                 {
-                    username
+
+                    username:
+                        username
+
                 }
 
             );
 
 
-        if (!result.ok) {
+
+        if (
+            !result.ok
+        ) {
+
 
             setStatus(
+
                 "login-status",
-                result.message,
+
+                result.message ||
+                    "無法確認帳號。",
+
                 "error"
+
             );
+
 
             return;
 
         }
 
 
-        if (!result.exists) {
+
+        if (
+            !result.exists
+        ) {
+
 
             setStatus(
+
                 "login-status",
+
                 "找不到此帳號。",
+
                 "error"
+
             );
+
 
             return;
 
         }
+
 
 
         pendingLoginUsername =
             username;
+
 
 
         document
@@ -958,7 +1909,9 @@ async function checkLoginAccount() {
                 "login-account-preview"
             )
             .textContent =
-            "帳號：" + username;
+            "帳號：" +
+            username;
+
 
 
         document
@@ -966,7 +1919,10 @@ async function checkLoginAccount() {
                 "login-step-1"
             )
             .classList
-            .add("hidden");
+            .add(
+                "hidden"
+            );
+
 
 
         document
@@ -974,35 +1930,70 @@ async function checkLoginAccount() {
                 "login-step-2"
             )
             .classList
-            .remove("hidden");
+            .remove(
+                "hidden"
+            );
+
 
 
         setStatus(
+
             "login-status",
+
             "",
+
             ""
+
         );
+
+
+
+        document
+            .getElementById(
+                "login-password"
+            )
+            .focus();
+
 
     }
 
     catch (error) {
 
+
         setStatus(
+
             "login-status",
+
             error.message,
+
             "error"
+
         );
+
+
+    }
+
+    finally {
+
+
+        setButtonDisabled(
+            "login-check-account",
+            false
+        );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Login
+// LOGIN
 // ======================================================
 
 async function login() {
+
 
     const password =
         document
@@ -1012,14 +2003,71 @@ async function login() {
             .value;
 
 
+
+    if (
+        !pendingLoginUsername
+    ) {
+
+
+        setStatus(
+
+            "login-status",
+
+            "請先輸入帳號。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        !password
+    ) {
+
+
+        setStatus(
+
+            "login-status",
+
+            "請輸入密碼。",
+
+            "error"
+
+        );
+
+
+        return;
+
+    }
+
+
+
     setStatus(
+
         "login-status",
+
         "正在登入...",
+
         ""
+
     );
 
 
+    setButtonDisabled(
+        "login-submit",
+        true
+    );
+
+
+
     try {
+
 
         const result =
             await api(
@@ -1031,34 +2079,61 @@ async function login() {
                     username:
                         pendingLoginUsername,
 
-                    password
+                    password:
+                        password
 
                 }
 
             );
 
 
-        if (!result.ok) {
+
+        if (
+            !result.ok
+        ) {
+
 
             setStatus(
+
                 "login-status",
-                result.message,
+
+                result.message ||
+                    "登入失敗。",
+
                 "error"
+
             );
+
 
             return;
 
         }
 
 
+
+        if (
+            !result.token ||
+            !result.user
+        ) {
+
+
+            throw new Error(
+                "登入回應資料不完整"
+            );
+
+
+        }
+
+
+
         localStorage.setItem(
+
             "602zr_session",
+
             result.token
+
         );
 
-
-        currentUser =
-            result.user;
 
 
         renderLoggedIn(
@@ -1066,38 +2141,76 @@ async function login() {
         );
 
 
+
         setStatus(
+
             "login-status",
+
             "登入成功。",
+
             "success"
+
         );
+
 
 
         setTimeout(
-            closeAuthModal,
-            500
+
+            function () {
+
+
+                closeAuthModal();
+
+
+                resetLogin();
+
+
+            },
+
+            450
+
         );
+
 
     }
 
     catch (error) {
 
+
         setStatus(
+
             "login-status",
+
             error.message,
+
             "error"
+
         );
+
+
+    }
+
+    finally {
+
+
+        setButtonDisabled(
+            "login-submit",
+            false
+        );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Restore Session
+// RESTORE SESSION
 // ======================================================
 
 async function restoreSession() {
+
 
     const token =
         localStorage.getItem(
@@ -1105,12 +2218,19 @@ async function restoreSession() {
         );
 
 
-    if (!token) {
+    if (
+        !token
+    ) {
+
+
         return;
+
     }
 
 
+
     try {
+
 
         const result =
             await api(
@@ -1118,51 +2238,70 @@ async function restoreSession() {
                 "session",
 
                 {
-                    token
+
+                    token:
+                        token
+
                 }
 
             );
 
 
-        if (!result.ok) {
+
+        if (
+            !result.ok ||
+            !result.user
+        ) {
+
 
             localStorage.removeItem(
                 "602zr_session"
             );
 
+
             renderLoggedOut();
+
 
             return;
 
         }
 
 
+
         renderLoggedIn(
             result.user
         );
 
+
     }
 
-    catch {
+    catch (error) {
 
-        // 網路暫時失敗時
-        // 不主動刪除 Session
+
+        console.warn(
+            "Session 暫時無法驗證：",
+            error
+        );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Logout
+// LOGOUT
 // ======================================================
 
 async function logout() {
+
 
     const token =
         localStorage.getItem(
             "602zr_session"
         );
+
 
 
     localStorage.removeItem(
@@ -1177,41 +2316,61 @@ async function logout() {
     renderLoggedOut();
 
 
-    if (!token) {
+
+    if (
+        !token
+    ) {
+
+
         return;
+
     }
 
 
+
     try {
+
 
         await api(
 
             "logout",
 
             {
-                token
+
+                token:
+                    token
+
             }
 
         );
 
+
     }
 
-    catch {
+    catch (error) {
 
-        // 本機已完成登出
+
+        console.warn(
+            "遠端登出失敗，但本機已登出。",
+            error
+        );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Reset
+// RESET LOGIN
 // ======================================================
 
 function resetLogin() {
 
-    pendingLoginUsername = "";
+
+    pendingLoginUsername =
+        "";
 
 
     document
@@ -1219,7 +2378,9 @@ function resetLogin() {
             "login-step-1"
         )
         .classList
-        .remove("hidden");
+        .remove(
+            "hidden"
+        );
 
 
     document
@@ -1227,28 +2388,46 @@ function resetLogin() {
             "login-step-2"
         )
         .classList
-        .add("hidden");
+        .add(
+            "hidden"
+        );
 
 
     document
         .getElementById(
             "login-password"
         )
-        .value = "";
+        .value =
+        "";
 
 
     setStatus(
+
         "login-status",
+
         "",
+
         ""
+
     );
 
 }
 
 
+
+// ======================================================
+// RESET REGISTER
+// ======================================================
+
 function resetRegister() {
 
-    pendingRegisterEmail = "";
+
+    pendingRegisterEmail =
+        "";
+
+
+    registerVerificationToken =
+        "";
 
 
     document
@@ -1256,7 +2435,9 @@ function resetRegister() {
             "register-step-1"
         )
         .classList
-        .remove("hidden");
+        .remove(
+            "hidden"
+        );
 
 
     document
@@ -1264,41 +2445,77 @@ function resetRegister() {
             "register-step-2"
         )
         .classList
-        .add("hidden");
+        .add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "register-step-3"
+        )
+        .classList
+        .add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "register-email"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "register-code"
+        )
+        .value =
+        "";
 
 
     document
         .getElementById(
             "register-username"
         )
-        .value = "";
+        .value =
+        "";
 
 
     document
         .getElementById(
             "register-password"
         )
-        .value = "";
+        .value =
+        "";
 
 
     document
         .getElementById(
             "register-password-confirm"
         )
-        .value = "";
+        .value =
+        "";
 
 
     setStatus(
+
         "register-status",
+
         "",
+
         ""
+
     );
 
 }
 
 
+
 // ======================================================
-// Status
+// STATUS
 // ======================================================
 
 function setStatus(
@@ -1307,8 +2524,18 @@ function setStatus(
     type
 ) {
 
+
     const element =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
 
 
     element.textContent =
@@ -1319,35 +2546,110 @@ function setStatus(
         "form-status";
 
 
-    if (type) {
+    if (
+        type
+    ) {
+
 
         element.classList.add(
             type
         );
+
 
     }
 
 }
 
 
+
 // ======================================================
-// Other Pages
+// BUTTON STATE
+// ======================================================
+
+function setButtonDisabled(
+    id,
+    disabled
+) {
+
+
+    const button =
+        document.getElementById(
+            id
+        );
+
+
+    if (
+        button
+    ) {
+
+
+        button.disabled =
+            disabled;
+
+
+    }
+
+}
+
+
+
+// ======================================================
+// GLOBAL API
 // ======================================================
 
 window.ZR602 = {
 
-    siteURL,
 
-    getCurrentUser() {
+    siteURL:
+        siteURL,
 
-        return currentUser;
 
-    },
+    getCurrentUser:
+        function () {
 
-    isLoggedIn() {
 
-        return currentUser !== null;
+            return currentUser;
 
-    }
+
+        },
+
+
+    isLoggedIn:
+        function () {
+
+
+            return (
+                currentUser !== null
+            );
+
+
+        },
+
+
+    requireLogin:
+        function () {
+
+
+            if (
+                currentUser
+            ) {
+
+
+                return true;
+
+
+            }
+
+
+            openAuthModal(
+                "login"
+            );
+
+
+            return false;
+
+
+        }
+
 
 };
