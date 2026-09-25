@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-Hant">
 
 <head>
@@ -20,24 +19,31 @@
         }
 
         body {
+
             margin: 0;
+
             font-family:
                 Arial,
                 "Noto Sans TC",
+                "Microsoft JhengHei",
                 sans-serif;
 
             background: #f5f6f8;
+
             color: #222;
+
         }
 
 
-        /* ============================= */
-        /* 頂部 */
-        /* ============================= */
+        /* ===================================== */
+        /* 頂部導覽列 */
+        /* ===================================== */
 
         header {
 
-            height: 76px;
+            width: 100%;
+
+            min-height: 76px;
 
             background: white;
 
@@ -47,12 +53,22 @@
 
             justify-content: space-between;
 
-            padding: 0 40px;
+            padding: 12px 36px;
 
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e2e2e2;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
 
         }
 
+
+        /* ===================================== */
+        /* Logo */
+        /* ===================================== */
 
         .logo {
 
@@ -62,12 +78,23 @@
 
             letter-spacing: 1px;
 
+            color: #111;
+
+            text-decoration: none;
+
         }
 
 
-        /* ============================= */
-        /* Google 帳號 */
-        /* ============================= */
+        .logo:hover {
+
+            opacity: 0.75;
+
+        }
+
+
+        /* ===================================== */
+        /* Google 登入區 */
+        /* ===================================== */
 
         #auth-area {
 
@@ -75,8 +102,31 @@
 
             align-items: center;
 
+            justify-content: flex-end;
+
+            min-height: 44px;
+
         }
 
+
+        .google-not-configured {
+
+            font-size: 13px;
+
+            color: #777;
+
+            background: #f2f2f2;
+
+            padding: 9px 14px;
+
+            border-radius: 20px;
+
+        }
+
+
+        /* ===================================== */
+        /* 登入後帳號 */
+        /* ===================================== */
 
         .account-box {
 
@@ -97,14 +147,29 @@
 
             border-radius: 50%;
 
+            object-fit: cover;
+
+            border: 1px solid #ddd;
+
+        }
+
+
+        .account-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1.25;
+
         }
 
 
         .account-name {
 
-            font-weight: 600;
-
             font-size: 14px;
+
+            font-weight: 700;
 
         }
 
@@ -115,62 +180,88 @@
 
             color: #777;
 
+            margin-top: 2px;
+
         }
 
 
         .logout-button {
 
-            margin-left: 10px;
-
-            padding: 7px 12px;
-
             border: 1px solid #ccc;
 
             background: white;
+
+            color: #333;
+
+            padding: 7px 12px;
 
             border-radius: 8px;
 
             cursor: pointer;
 
+            margin-left: 4px;
+
         }
 
 
-        /* ============================= */
-        /* 主畫面 */
-        /* ============================= */
+        .logout-button:hover {
+
+            background: #f4f4f4;
+
+        }
+
+
+        /* ===================================== */
+        /* 主內容 */
+        /* ===================================== */
 
         main {
 
-            max-width: 1000px;
+            max-width: 1050px;
 
-            margin: 60px auto;
+            margin: 0 auto;
 
-            padding: 0 20px;
-
-        }
-
-
-        h1 {
-
-            font-size: 42px;
-
-            margin-bottom: 8px;
+            padding: 65px 25px 80px;
 
         }
 
 
-        .subtitle {
+        .hero {
+
+            margin-bottom: 45px;
+
+        }
+
+
+        .hero h1 {
+
+            margin: 0;
+
+            font-size: 48px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .hero p {
+
+            margin-top: 10px;
+
+            margin-bottom: 0;
 
             color: #777;
 
-            margin-bottom: 40px;
+            font-size: 16px;
 
         }
 
 
-        /* ============================= */
-        /* 功能卡片 */
-        /* ============================= */
+        /* ===================================== */
+        /* 功能連結 */
+        /* ===================================== */
 
         #home-links {
 
@@ -191,21 +282,24 @@
 
             display: block;
 
+            min-height: 135px;
+
             background: white;
 
-            padding: 28px;
+            padding: 27px;
 
             border-radius: 16px;
 
-            text-decoration: none;
-
             color: #222;
 
-            border: 1px solid #e2e2e2;
+            text-decoration: none;
+
+            border: 1px solid #e1e1e1;
 
             transition:
-                transform 0.2s,
-                box-shadow 0.2s;
+                transform 0.18s ease,
+                box-shadow 0.18s ease,
+                border-color 0.18s ease;
 
         }
 
@@ -214,9 +308,11 @@
 
             transform: translateY(-4px);
 
+            border-color: #ccc;
+
             box-shadow:
-                0 10px 30px
-                rgba(0,0,0,0.08);
+                0 12px 30px
+                rgba(0, 0, 0, 0.08);
 
         }
 
@@ -227,31 +323,113 @@
 
             font-weight: 700;
 
-            margin-bottom: 9px;
+            margin-bottom: 10px;
 
         }
 
 
         .menu-description {
 
-            color: #777;
-
             font-size: 14px;
+
+            line-height: 1.6;
+
+            color: #777;
 
         }
 
 
-        @media (max-width: 600px) {
+        /* ===================================== */
+        /* Footer */
+        /* ===================================== */
+
+        footer {
+
+            text-align: center;
+
+            padding: 30px 20px;
+
+            color: #999;
+
+            font-size: 12px;
+
+        }
+
+
+        /* ===================================== */
+        /* 平板 / 手機 */
+        /* ===================================== */
+
+        @media (max-width: 700px) {
 
             header {
 
-                padding: 0 18px;
+                padding: 10px 16px;
 
             }
+
+
+            .logo {
+
+                font-size: 25px;
+
+            }
+
+
+            main {
+
+                padding:
+                    45px
+                    18px
+                    60px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 38px;
+
+            }
+
 
             .account-email {
 
                 display: none;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            header {
+
+                align-items: center;
+
+            }
+
+
+            .account-info {
+
+                display: none;
+
+            }
+
+
+            .logout-button {
+
+                font-size: 12px;
+
+                padding: 6px 9px;
+
+            }
+
+
+            #home-links {
+
+                grid-template-columns: 1fr;
 
             }
 
@@ -265,43 +443,100 @@
 <body>
 
 
+<!-- ===================================== -->
+<!-- 頂部 -->
+<!-- ===================================== -->
+
 <header>
 
-    <div class="logo">
+    <a
+        href="./"
+        class="logo"
+        data-home-link
+    >
         602ZR
-    </div>
+    </a>
 
 
     <div id="auth-area">
 
-        <!-- Google 登入 / 使用者帳號 -->
+        <!--
+            app.js 會自動在這裡顯示：
+
+            Google 登入按鈕
+
+            或
+
+            Google 頭像
+            使用者名稱
+            Email
+            登出
+        -->
 
     </div>
 
 </header>
 
 
+
+<!-- ===================================== -->
+<!-- 主畫面 -->
+<!-- ===================================== -->
+
 <main>
 
-    <h1>
-        602ZR
-    </h1>
 
-    <div class="subtitle">
-        Pokémon Trading Card Game Platform
-    </div>
+    <section class="hero">
+
+        <h1>
+            602ZR
+        </h1>
+
+        <p>
+            Pokémon Trading Card Game Platform
+        </p>
+
+    </section>
 
 
-    <div id="home-links">
 
-        <!-- app.js 自動產生 -->
+    <!-- ================================= -->
+    <!-- 功能選單 -->
+    <!-- app.js 自動建立 -->
+    <!-- ================================= -->
 
-    </div>
+    <section id="home-links">
+
+        <!--
+
+        app.js 會自動產生：
+
+        對戰模擬
+        牌組編輯
+        PTCG 訓練家網站臺灣
+        最新賽事
+        聊天平台
+
+        -->
+
+    </section>
+
 
 </main>
 
 
+
+<footer>
+
+    602ZR
+
+</footer>
+
+
+
+<!-- ===================================== -->
 <!-- Google Identity Services -->
+<!-- ===================================== -->
 
 <script
     src="https://accounts.google.com/gsi/client"
@@ -310,9 +545,12 @@
 </script>
 
 
-<!-- 602ZR 共用 JS -->
 
-<script src="/app.js"></script>
+<!-- ===================================== -->
+<!-- 602ZR JavaScript -->
+<!-- ===================================== -->
+
+<script src="./app.js"></script>
 
 
 </body>
