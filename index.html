@@ -3,439 +3,556 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>602ZR</title>
+<title>602ZR</title>
 
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        body {
+body {
 
-            margin: 0;
+    margin: 0;
 
-            font-family:
-                Arial,
-                "Noto Sans TC",
-                "Microsoft JhengHei",
-                sans-serif;
+    font-family:
+        Arial,
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
 
-            background: #f5f6f8;
+    background: #f5f6f8;
 
-            color: #222;
+    color: #222;
 
-        }
+}
 
 
-        /* ===================================== */
-        /* 頂部導覽列 */
-        /* ===================================== */
+/* ============================= */
+/* Header */
+/* ============================= */
 
-        header {
+header {
 
-            width: 100%;
+    min-height: 76px;
 
-            min-height: 76px;
+    background: white;
 
-            background: white;
+    display: flex;
 
-            display: flex;
+    align-items: center;
 
-            align-items: center;
+    justify-content: space-between;
 
-            justify-content: space-between;
+    padding: 12px 36px;
 
-            padding: 12px 36px;
+    border-bottom: 1px solid #ddd;
 
-            border-bottom: 1px solid #e2e2e2;
+}
 
-            position: sticky;
 
-            top: 0;
+.logo {
 
-            z-index: 100;
+    font-size: 30px;
 
-        }
+    font-weight: 800;
 
+    color: #111;
 
-        /* ===================================== */
-        /* Logo */
-        /* ===================================== */
+    text-decoration: none;
 
-        .logo {
+}
 
-            font-size: 30px;
 
-            font-weight: 800;
+/* ============================= */
+/* Login area */
+/* ============================= */
 
-            letter-spacing: 1px;
+#auth-area {
 
-            color: #111;
+    display: flex;
 
-            text-decoration: none;
+    align-items: center;
 
-        }
+    gap: 10px;
 
+}
 
-        .logo:hover {
 
-            opacity: 0.75;
+.auth-button {
 
-        }
+    padding: 9px 16px;
 
+    border-radius: 9px;
 
-        /* ===================================== */
-        /* Google 登入區 */
-        /* ===================================== */
+    border: 1px solid #ccc;
 
-        #auth-area {
+    background: white;
 
-            display: flex;
+    cursor: pointer;
 
-            align-items: center;
+    font-size: 14px;
 
-            justify-content: flex-end;
+}
 
-            min-height: 44px;
 
-        }
+.auth-button.primary {
 
+    background: #111;
 
-        .google-not-configured {
+    color: white;
 
-            font-size: 13px;
+    border-color: #111;
 
-            color: #777;
+}
 
-            background: #f2f2f2;
 
-            padding: 9px 14px;
+.auth-button:hover {
 
-            border-radius: 20px;
+    opacity: .8;
 
-        }
+}
 
 
-        /* ===================================== */
-        /* 登入後帳號 */
-        /* ===================================== */
+.user-box {
 
-        .account-box {
+    display: flex;
 
-            display: flex;
+    align-items: center;
 
-            align-items: center;
+    gap: 12px;
 
-            gap: 10px;
+}
 
-        }
 
+.user-name {
 
-        .account-avatar {
+    font-weight: 700;
 
-            width: 42px;
+}
 
-            height: 42px;
 
-            border-radius: 50%;
+.user-email {
 
-            object-fit: cover;
+    color: #888;
 
-            border: 1px solid #ddd;
+    font-size: 11px;
 
-        }
+}
 
 
-        .account-info {
+/* ============================= */
+/* Main */
+/* ============================= */
 
-            display: flex;
+main {
 
-            flex-direction: column;
+    max-width: 1050px;
 
-            line-height: 1.25;
+    margin: auto;
 
-        }
+    padding: 65px 25px 80px;
 
+}
 
-        .account-name {
 
-            font-size: 14px;
+.hero {
 
-            font-weight: 700;
+    margin-bottom: 45px;
 
-        }
+}
 
 
-        .account-email {
+.hero h1 {
 
-            font-size: 11px;
+    font-size: 48px;
 
-            color: #777;
+    margin: 0;
 
-            margin-top: 2px;
+}
 
-        }
 
+.hero p {
 
-        .logout-button {
+    color: #777;
 
-            border: 1px solid #ccc;
+    margin-top: 10px;
 
-            background: white;
+}
 
-            color: #333;
 
-            padding: 7px 12px;
+/* ============================= */
+/* Menu */
+/* ============================= */
 
-            border-radius: 8px;
+#home-links {
 
-            cursor: pointer;
+    display: grid;
 
-            margin-left: 4px;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(260px, 1fr)
+        );
 
-        }
+    gap: 20px;
 
+}
 
-        .logout-button:hover {
 
-            background: #f4f4f4;
+.menu-card {
 
-        }
+    display: block;
 
+    min-height: 135px;
 
-        /* ===================================== */
-        /* 主內容 */
-        /* ===================================== */
+    background: white;
 
-        main {
+    padding: 27px;
 
-            max-width: 1050px;
+    border-radius: 16px;
 
-            margin: 0 auto;
+    text-decoration: none;
 
-            padding: 65px 25px 80px;
+    color: #222;
 
-        }
+    border: 1px solid #ddd;
 
+    transition: .2s;
 
-        .hero {
+}
 
-            margin-bottom: 45px;
 
-        }
+.menu-card:hover {
 
+    transform: translateY(-4px);
 
-        .hero h1 {
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,.08);
 
-            margin: 0;
+}
 
-            font-size: 48px;
 
-            font-weight: 800;
+.menu-title {
 
-            letter-spacing: 1px;
+    font-size: 21px;
 
-        }
+    font-weight: 700;
 
+    margin-bottom: 10px;
 
-        .hero p {
+}
 
-            margin-top: 10px;
 
-            margin-bottom: 0;
+.menu-description {
 
-            color: #777;
+    color: #777;
 
-            font-size: 16px;
+    font-size: 14px;
 
-        }
+    line-height: 1.6;
 
+}
 
-        /* ===================================== */
-        /* 功能連結 */
-        /* ===================================== */
 
-        #home-links {
+/* ============================= */
+/* Modal */
+/* ============================= */
 
-            display: grid;
+.modal {
 
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(260px, 1fr)
-                );
+    position: fixed;
 
-            gap: 20px;
+    inset: 0;
 
-        }
+    background:
+        rgba(0,0,0,.35);
 
+    display: flex;
 
-        .menu-card {
+    align-items: center;
 
-            display: block;
+    justify-content: center;
 
-            min-height: 135px;
+    z-index: 999;
 
-            background: white;
+    padding: 20px;
 
-            padding: 27px;
+}
 
-            border-radius: 16px;
 
-            color: #222;
+.hidden {
 
-            text-decoration: none;
+    display: none !important;
 
-            border: 1px solid #e1e1e1;
+}
 
-            transition:
-                transform 0.18s ease,
-                box-shadow 0.18s ease,
-                border-color 0.18s ease;
 
-        }
+.modal-card {
 
+    width: 100%;
 
-        .menu-card:hover {
+    max-width: 420px;
 
-            transform: translateY(-4px);
+    background: white;
 
-            border-color: #ccc;
+    border-radius: 18px;
 
-            box-shadow:
-                0 12px 30px
-                rgba(0, 0, 0, 0.08);
+    padding: 28px;
 
-        }
+    box-shadow:
+        0 20px 70px
+        rgba(0,0,0,.2);
 
+}
 
-        .menu-title {
 
-            font-size: 21px;
+.modal-header {
 
-            font-weight: 700;
+    display: flex;
 
-            margin-bottom: 10px;
+    justify-content: space-between;
 
-        }
+    align-items: center;
 
+    margin-bottom: 20px;
 
-        .menu-description {
+}
 
-            font-size: 14px;
 
-            line-height: 1.6;
+.modal-title {
 
-            color: #777;
+    font-size: 24px;
 
-        }
+    font-weight: 800;
 
+}
 
-        /* ===================================== */
-        /* Footer */
-        /* ===================================== */
 
-        footer {
+.close-button {
 
-            text-align: center;
+    border: 0;
 
-            padding: 30px 20px;
+    background: transparent;
 
-            color: #999;
+    font-size: 26px;
 
-            font-size: 12px;
+    cursor: pointer;
 
-        }
+}
 
 
-        /* ===================================== */
-        /* 平板 / 手機 */
-        /* ===================================== */
+/* Tabs */
 
-        @media (max-width: 700px) {
+.tabs {
 
-            header {
+    display: flex;
 
-                padding: 10px 16px;
+    gap: 8px;
 
-            }
+    margin-bottom: 24px;
 
+}
 
-            .logo {
 
-                font-size: 25px;
+.tab {
 
-            }
+    flex: 1;
 
+    padding: 10px;
 
-            main {
+    border-radius: 9px;
 
-                padding:
-                    45px
-                    18px
-                    60px;
+    border: 1px solid #ddd;
 
-            }
+    background: white;
 
+    cursor: pointer;
 
-            .hero h1 {
+}
 
-                font-size: 38px;
 
-            }
+.tab.active {
 
+    background: #111;
 
-            .account-email {
+    color: white;
 
-                display: none;
+}
 
-            }
 
-        }
+/* Form */
 
+.form-group {
 
-        @media (max-width: 500px) {
+    margin-bottom: 16px;
 
-            header {
+}
 
-                align-items: center;
 
-            }
+.form-label {
 
+    display: block;
 
-            .account-info {
+    font-weight: 600;
 
-                display: none;
+    margin-bottom: 7px;
 
-            }
+}
 
 
-            .logout-button {
+.form-input {
 
-                font-size: 12px;
+    width: 100%;
 
-                padding: 6px 9px;
+    padding: 12px 13px;
 
-            }
+    border-radius: 9px;
 
+    border: 1px solid #ccc;
 
-            #home-links {
+    font-size: 16px;
 
-                grid-template-columns: 1fr;
+}
 
-            }
 
-        }
+.form-button {
 
-    </style>
+    width: 100%;
+
+    padding: 12px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #111;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+
+.form-button.secondary {
+
+    margin-top: 8px;
+
+    background: #eee;
+
+    color: #222;
+
+}
+
+
+.form-button:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+}
+
+
+.form-status {
+
+    margin-top: 15px;
+
+    min-height: 20px;
+
+    font-size: 14px;
+
+}
+
+
+.form-status.error {
+
+    color: #b00020;
+
+}
+
+
+.form-status.success {
+
+    color: #087f23;
+
+}
+
+
+.account-preview {
+
+    background: #f4f5f7;
+
+    border-radius: 10px;
+
+    padding: 11px;
+
+    margin-bottom: 16px;
+
+    font-size: 13px;
+
+}
+
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #aaa;
+
+    font-size: 12px;
+
+}
+
+
+@media (max-width: 600px) {
+
+    header {
+
+        padding: 10px 16px;
+
+    }
+
+    .logo {
+
+        font-size: 25px;
+
+    }
+
+    main {
+
+        padding: 45px 18px;
+
+    }
+
+    .hero h1 {
+
+        font-size: 38px;
+
+    }
+
+    .user-email {
+
+        display: none;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -443,115 +560,338 @@
 <body>
 
 
-<!-- ===================================== -->
-<!-- 頂部 -->
-<!-- ===================================== -->
-
 <header>
 
-    <a
-        href="./"
-        class="logo"
-        data-home-link
-    >
-        602ZR
-    </a>
+<a
+    class="logo"
+    href="./"
+>
+602ZR
+</a>
 
 
-    <div id="auth-area">
+<div id="auth-area">
 
-        <!--
-            app.js 會自動在這裡顯示：
+<!-- app.js 自動產生 -->
 
-            Google 登入按鈕
-
-            或
-
-            Google 頭像
-            使用者名稱
-            Email
-            登出
-        -->
-
-    </div>
+</div>
 
 </header>
 
 
 
-<!-- ===================================== -->
-<!-- 主畫面 -->
-<!-- ===================================== -->
-
 <main>
 
+<section class="hero">
 
-    <section class="hero">
+<h1>
+602ZR
+</h1>
 
-        <h1>
-            602ZR
-        </h1>
+<p>
+Pokémon Trading Card Game Platform
+</p>
 
-        <p>
-            Pokémon Trading Card Game Platform
-        </p>
-
-    </section>
-
+</section>
 
 
-    <!-- ================================= -->
-    <!-- 功能選單 -->
-    <!-- app.js 自動建立 -->
-    <!-- ================================= -->
-
-    <section id="home-links">
-
-        <!--
-
-        app.js 會自動產生：
-
-        對戰模擬
-        牌組編輯
-        PTCG 訓練家網站臺灣
-        最新賽事
-        聊天平台
-
-        -->
-
-    </section>
-
+<section id="home-links"></section>
 
 </main>
 
 
 
 <footer>
-
-    602ZR
-
+602ZR
 </footer>
 
 
 
-<!-- ===================================== -->
-<!-- Google Identity Services -->
-<!-- ===================================== -->
+<!-- ============================== -->
+<!-- 會員登入視窗 -->
+<!-- ============================== -->
 
-<script
-    src="https://accounts.google.com/gsi/client"
-    async
-    defer>
-</script>
+<div
+    id="auth-modal"
+    class="modal hidden"
+>
+
+<div class="modal-card">
+
+
+<div class="modal-header">
+
+<div class="modal-title">
+602ZR 帳號
+</div>
+
+<button
+    id="close-auth"
+    class="close-button"
+>
+×
+</button>
+
+</div>
 
 
 
-<!-- ===================================== -->
-<!-- 602ZR JavaScript -->
-<!-- ===================================== -->
+<div class="tabs">
+
+<button
+    id="login-tab"
+    class="tab active"
+>
+登入
+</button>
+
+<button
+    id="register-tab"
+    class="tab"
+>
+註冊
+</button>
+
+</div>
+
+
+
+<!-- ============================== -->
+<!-- 登入 -->
+<!-- ============================== -->
+
+<div id="login-panel">
+
+
+<!-- Login Step 1 -->
+
+<div id="login-step-1">
+
+<div class="form-group">
+
+<label class="form-label">
+帳號
+</label>
+
+<input
+    id="login-username"
+    class="form-input"
+    type="text"
+    autocomplete="username"
+    placeholder="輸入 602ZR 帳號"
+>
+
+</div>
+
+
+<button
+    id="login-check-account"
+    class="form-button"
+>
+下一步
+</button>
+
+</div>
+
+
+
+<!-- Login Step 2 -->
+
+<div
+    id="login-step-2"
+    class="hidden"
+>
+
+<div
+    id="login-account-preview"
+    class="account-preview"
+></div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+密碼
+</label>
+
+<input
+    id="login-password"
+    class="form-input"
+    type="password"
+    autocomplete="current-password"
+    placeholder="輸入密碼"
+>
+
+</div>
+
+
+<button
+    id="login-submit"
+    class="form-button"
+>
+登入
+</button>
+
+
+<button
+    id="login-back"
+    class="form-button secondary"
+>
+返回
+</button>
+
+</div>
+
+
+<div
+    id="login-status"
+    class="form-status"
+></div>
+
+</div>
+
+
+
+<!-- ============================== -->
+<!-- 註冊 -->
+<!-- ============================== -->
+
+<div
+    id="register-panel"
+    class="hidden"
+>
+
+
+<!-- Register Step 1 -->
+
+<div id="register-step-1">
+
+<div class="form-group">
+
+<label class="form-label">
+Email
+</label>
+
+<input
+    id="register-email"
+    class="form-input"
+    type="email"
+    autocomplete="email"
+    placeholder="name@example.com"
+>
+
+</div>
+
+
+<button
+    id="register-check-email"
+    class="form-button"
+>
+檢查 Email
+</button>
+
+</div>
+
+
+
+<!-- Register Step 2 -->
+
+<div
+    id="register-step-2"
+    class="hidden"
+>
+
+
+<div
+    id="register-email-preview"
+    class="account-preview"
+></div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+自訂帳號
+</label>
+
+<input
+    id="register-username"
+    class="form-input"
+    type="text"
+    autocomplete="username"
+    placeholder="例如 602ZRPlayer"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+密碼
+</label>
+
+<input
+    id="register-password"
+    class="form-input"
+    type="password"
+    autocomplete="new-password"
+    placeholder="至少 8 個字元"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+再次輸入密碼
+</label>
+
+<input
+    id="register-password-confirm"
+    class="form-input"
+    type="password"
+    autocomplete="new-password"
+    placeholder="再次輸入密碼"
+>
+
+</div>
+
+
+<button
+    id="register-submit"
+    class="form-button"
+>
+建立帳號
+</button>
+
+
+<button
+    id="register-back"
+    class="form-button secondary"
+>
+返回
+</button>
+
+</div>
+
+
+<div
+    id="register-status"
+    class="form-status"
+></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 
 <script src="./app.js"></script>
-
 
 </body>
 
