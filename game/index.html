@@ -1,1 +1,25 @@
-
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>602ZR｜雙人對戰桌</title><style>body{margin:0;background:#f6f7f1;color:#18392f;font-family:Arial,sans-serif}header{padding:14px 4vw;display:flex;gap:22px;align-items:center;border-bottom:1px solid #d3ddcc}a{color:inherit}header span{flex:1}iframe{width:100%;height:calc(100dvh - 56px);border:0;display:block}#setup{margin:30px;padding:20px;border:1px solid #d3ddcc;border-radius:8px}</style></head>
+<body><header><a href="/">602ZR</a><a href="/card/">我的可對戰牌組</a><span></span><a id="direct" target="_blank" rel="noopener">以新分頁開啟對戰桌</a></header><p id="setup">請先將這份檔案中的 GAS_EXEC_URL 改成正式 /exec 部署網址。</p><iframe id="gameFrame" title="602ZR GAS 雙人對戰桌" allow="clipboard-write" hidden></iframe>
+<script>
+// 此檔案只是嵌入外殼；不建立房間、不儲存對戰狀態、不執行遊戲規則。
+const GAS_EXEC_URL = 'REPLACE_WITH_GAS_EXEC_URL';
+// 對接現有 /card 登入：回傳 /card 後端可驗證的憑證。
+// 不要傳 email、userId 或公開 Google Client ID 代替登入驗證。
+async function readCardCredential() {
+  if (typeof window.getZrCardCredential === 'function') return await window.getZrCardCredential();
+  return ''; // 未整合前可於 GAS 手動驗證，或待 /card 原始碼提供後接入。
+}
+const frame=document.getElementById('gameFrame');
+const nonce=Array.from(crypto.getRandomValues(new Uint8Array(20)),x=>x.toString(16).padStart(2,'0')).join('');
+let validUrl=null;
+try{const url=new URL(GAS_EXEC_URL);if(url.origin!=='https://script.google.com'||!/^\/macros\/s\/[^/]+\/exec$/.test(url.pathname))throw Error('非正式 GAS exec 網址');url.searchParams.set('page','game');url.searchParams.set('embedNonce',nonce);validUrl=url;}catch(e){}
+if(validUrl){document.getElementById('setup').hidden=true;frame.hidden=false;frame.src=validUrl.href;document.getElementById('direct').href=validUrl.href;}
+else document.getElementById('direct').hidden=true;
+window.addEventListener('message',async function(e){
+ const googleOrigin=e.origin==='https://script.google.com'||/^https:\/\/[a-z0-9-]+\.googleusercontent\.com$/.test(e.origin);
+ if(!validUrl||!googleOrigin||!e.data||e.data.type!=='ZR_GAME_READY'||e.data.nonce!==nonce)return;
+ const credential=await readCardCredential();
+ if(typeof credential==='string'&&credential)e.source.postMessage({type:'ZR_GAME_AUTH',nonce:nonce,credential:credential},e.origin);
+});
+</script></body></html>
