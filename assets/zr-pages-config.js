@@ -1,6 +1,6 @@
 /* GitHub 網站只在這裡填兩個工具部署網址。 */
 window.ZR602Pages = Object.freeze({
-  deckGasUrl: 'https://script.google.com/macros/s/AKfycbzQpqpgoXAp67_zW9loqeML7kY7Dw4aWwNQmaAaHy7n127nWCufmKvHG5m59yNkIaBh/exec',
+  deckGasUrl: 'https://script.google.com/macros/s/AKfycbwVxsa2iH8OfobIn4bvIzuUjc8Wm6rrAopJkqE-85sxbhK784X2i4lCsaJYATifzpqR/exec',
   // /card 與 /game 必須指向同一個 GAS 部署。
   cardGameGasUrl: 'https://script.google.com/macros/s/AKfycbwmb21bdHSHjE7CKgbxc3FaBA2sRxLb9t5XjMJePG1s9bBMJS3LNUmH_Z26QOg6Xhb3/exec'
 });
