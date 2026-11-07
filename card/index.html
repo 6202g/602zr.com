@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>602ZR｜我的可對戰牌組</title>
+<style>body{margin:0;background:#f6f7f1;color:#18392f;font-family:Arial,sans-serif}header{display:flex;gap:20px;align-items:center;padding:14px 4vw;border-bottom:1px solid #d3ddcc}header span{flex:1}a{color:inherit}iframe{width:100%;height:calc(100dvh - 60px);border:0}#notice{margin:20px;font-size:13px}</style></head>
+<body><header><a href="../">602ZR</a><strong>我的可對戰牌組</strong><span></span><a href="../deck/">牌組編輯器</a><a href="../game/">我的可對戰牌組</a></header><p id="notice">正在載入 GAS…</p><iframe id="zrFrame" title="602ZR 我的可對戰牌組" allow="clipboard-write" hidden></iframe>
+<!-- 使用相對路徑，不預設你的實際網站網域。 -->
+<script src="../assets/zr-pages-config.js"></script>
+<script src="../assets/zr-gas-account.js"></script>
+<script>
+const GAS_EXEC_URL = window.ZR602Pages.cardGameGasUrl;
+try {
+ window.zrPageBridge=ZR602GasBridge.mount({iframe:'#zrFrame',gasUrl:GAS_EXEC_URL,page:'card'});
+ document.getElementById('zrFrame').hidden=false;document.getElementById('notice').hidden=true;
+} catch(e){document.getElementById('notice').textContent=e.message;}
+</script></body></html>
